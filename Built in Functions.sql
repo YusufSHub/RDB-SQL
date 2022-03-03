@@ -68,3 +68,15 @@ FROM [sale].[orders]
 -- EOMONTH
 SELECT EOMONTH(order_date) LAST_DAY, order_date, EOMONTH(order_date, 2) after_2
 FROM [sale].[orders]
+
+select ISDATE ('01-01-999')
+
+select ISDATE ('01-01-1999')
+
+select ISDATE ('01-01-1972')
+
+
+SELECT CHARINDEX('r', 'Reinvent yourself') AS start_position;
+
+
+SELECT CHARINDEX('R', 'Reinvent yourself') AS start_position;
