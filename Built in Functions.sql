@@ -80,3 +80,59 @@ SELECT CHARINDEX('r', 'Reinvent yourself') AS start_position;
 
 
 SELECT CHARINDEX('R', 'Reinvent yourself') AS start_position;
+
+select CHARINDEX('C', 'CHARACTER', 2) /* 6 */
+
+select PATINDEX('%R', 'CHARACTER') /* 9 */
+
+select PATINDEX('R%', 'CHARACTER') /* 0 */
+
+SELECT PATINDEX ('___R%','CHARACTER') /* 1 */
+
+SELECT LEFT('CHARACTER', 3)
+SELECT LEFT(' CHARACTER', 3)
+
+SELECT RIGHT('CHARACTER', 3)
+SELECT RIGHT('CHARACTER ', 3)
+
+SELECT SUBSTRING('CHARACTER', 3, 5) --ARACT
+SELECT SUBSTRING('CHARACTER', -1, 5) --CHA DÖNDÜRÜR
+
+SELECT SUBSTRING('CHARACTER', -2, 5) --CHA DÖNDÜRÜR
+
+
+-- make only C in 'character' upper
+SELECT UPPER(LEFT('character',1)) + LOWER(RIGHT('character',8))
+
+SELECT UPPER(LEFT('character',1)) + LOWER(RIGHT('character',LEN ('character')-1))
+
+SELECT TRIM ('     CHARACTER')
+
+SELECT TRIM ('     CHARACTER     ')
+
+SELECT TRIM ('     CHAR ACTER     ')
+
+SELECT TRIM('?, ' FROM '    ?SQL Server,    ') AS TrimmedString;
+
+
+SELECT REPLACE('CHARACTER STRING', ' ', '/')
+
+select STR(412); -- prints up to 10 characters
+
+select str(1234567892220);
+
+select str(5454, 10, 5)
+
+SELECT STR (133215.654645, 11, 3)
+
+
+SELECT STR (133215.654645, 9, 3)
+
+
+select CAST (456123 as char)
+
+select CONVERT (varchar(10), '2020-10-10')
+
+select coalesce(null, null, 'Hi', 'Hello', null )
+
+select nullif('Hello', 'Hi');
