@@ -95,3 +95,59 @@ select ISDATE('9999')
 select *, DATEDIFF(day, order_date, shipped_date) as DaystoShip
 from [sale].[orders]
 where DATEDIFF(day, order_date, shipped_date) >2
+
+
+Select GETDATE() as now;
+
+
+select DATENAME (WEEKDAY, '1989-12-06') as day; 
+/* returns name of the day as Wednesday*/
+/*nvarchar format.*/
+
+select DATENAME (MONTH, '06-12-1989') as day; 
+/* returns name of the month as June*/
+
+select DATENAME (DAYOFYEAR, '06-12-1989') as day;
+/*163*/
+
+
+select DATEPART (minute, GETDATE());
+/* returns minutes as an integer*/
+
+select DATEPART (HOUR, GETDATE());
+
+select DATEPART (DAYOFYEAR, GETDATE());
+/*Tips: There ara fourty datepart tips in SQL Server you can use. 
+Such as: DAY, HOUR, MINUTE, WEEKDAY, YEAR, DAYOFYEAR, MONTH, etc.*/
+
+select day('1989-06-12') as day;
+/* returns day of the date as an integer*/
+
+select MONTH (GETDATE());
+/* return month of the date as an integer. 3 */
+
+select month('1989-06-12') as month;
+
+select year('1989-06-12') as year;
+
+select DATEDIFF(week, '1989-06-12', GETDATE());
+/* weeks i am alive*/
+
+select DATEDIFF(DAY, '1989-06-12', GETDATE());
+/* days i am alive*/
+
+
+select DATEDIFF(YEAR, '1989-06-12', GETDATE());
+
+
+SELECT DATEADD (SECOND, 1, '2021-12-31 23:59:59') AS NewDate
+
+SET DATEFORMAT DMY
+
+select ISDATE ('12/06/1989')
+
+select ISDATE ('12-06-1989')
+
+select ISDATE ('1989-06-10')
+
+select ISDATE ('10-1989-10')
