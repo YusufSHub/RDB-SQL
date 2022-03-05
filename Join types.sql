@@ -59,3 +59,18 @@ select S.staff_id, S.first_name, S.last_name, O.*
 from sale.orders O
 RIGHT JOIN sale.staff S
 on S.staff_id = O.staff_id
+
+select TOP 100 P.product_id, S.store_id, S.quantity,  O.order_id, O.list_price
+from product.product P
+FULL OUTER JOIN product.stock S ON P.product_id = S.product_id
+FULL OUTER JOIN sale.order_item O ON P.product_id = O.product_id
+order by P.product_id;
+
+/*
+In the stocks table, there are not all products held on the product table and you 
+want to insert these products into the stock table.
+
+You have to insert all these products for every three stores with "0" quantity.
+
+Write a query to prepare this data.
+*/
