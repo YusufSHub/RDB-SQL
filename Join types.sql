@@ -74,3 +74,29 @@ You have to insert all these products for every three stores with "0" quantity.
 
 Write a query to prepare this data.
 */
+
+
+select S1.first_name, S1.last_name, S1.manager_id
+from sale.staff S1
+JOIN sale.staff S2 
+ON S1.manager_id = S2.staff_id
+
+select A.first_name, B.first_name as manager1_name, C.first_name as manager2_name
+from sale.staff A
+JOIN sale.staff B
+on A.manager_id = B.staff_id
+JOIN sale.staff C
+on B.manager_id = C.staff_id
+ORDER BY C.first_name, B.first_name
+
+
+CREATE VIEW Customer_Product 
+AS
+SELECT	distinct D.customer_id, D.first_name, D.last_name
+FROM	product.product A, sale.order_item B, sale.orders C, sale.customer D
+WHERE	A.product_id=B.product_id
+AND		B.order_id = C.order_id
+AND		C.customer_id = D.customer_id
+AND		A.product_name = '2TB Red 5400 rpm SATA III 3.5 Internal NAS HDD'
+
+select * from [dbo].[Customer_Product]
