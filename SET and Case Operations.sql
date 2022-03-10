@@ -53,3 +53,38 @@ HAVING SUM (CASE WHEN seniority = 'Experienced' THEN 1 ELSE 0 END) > 0
        SUM (CASE WHEN graduation = 'BSc' THEN 1 ELSE 0 END) > 0
   
 ;
+
+--List Customers last names in Charlotte and Aurora
+
+
+select last_name
+from sale.customer
+where city='Charlotte'
+UNION ALL
+select last_name
+from sale.customer
+where city='Aurora'
+
+-- Write a query that returns customers who first name is Thomas or last name is Thomas
+select first_name, last_name
+from sale.customer
+where first_name='Thomas'
+UNION ALL
+select first_name, last_name
+from sale.customer
+where last_name='Thomas'
+
+
+select * 
+from product.brand
+where brand_id IN
+(
+select model_year 
+from product.product
+where model_year ='2018'
+INTERSECT
+select model_year 
+from product.product
+where model_year = '2019'
+)
+
