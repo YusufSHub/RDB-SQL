@@ -100,18 +100,70 @@ group by B.brand_name, C.category_name
 
 ---- 10. Select the annual amount of product produced according to brands----
 
-select B.brand_name, P.model_year, I.quantity
-from sale.order_item I, product.product P, product.brand B
-where I.product_id = P.product_id
-and P.brand_id = B.brand_id
-group by P.model_year, B.brand_name, I.quantity
+select B.brand_name, P.model_year, COUNT(P.product_id) Total
+from product.product P, product.brand B
+where P.brand_id = B.brand_id
+group by P.model_year, B.brand_name
 order by B.brand_name, P.model_year
 
----- 11. Select the store which has the most sales quantity in 2016.----
+select *
+from product.product P, product.brand B
+where P.brand_id = B.brand_id and
+B.brand_name = 'Apple' 
+and P.model_year='2018'
+
+
+SELECT  model_year
+FROM product.product
+
+
+select *
+from product.product P, product.brand B
+where P.brand_id = B.brand_id and
+B.brand_name = 'Apple' 
+and P.model_year='2021'
+
+
+---- 11. Select the store which has the most sales quantity in 2019.----
+select TOP 1 S.store_name, YEAR(O.order_date) [Year], sum(I.quantity) Total
+from sale.orders O, sale.store S, sale.order_item I
+where S.store_id = O.store_id and O.order_id = I.order_id 
+and YEAR(O.order_date) = 2019
+group by S.store_name, YEAR(O.order_date)
+order by Total DESC;
 
 
 ---- 12 Select the store which has the most sales amount in 2018.----
 
+select TOP 1 S.store_name, YEAR(O.order_date), 
+sum((I.list_price - (I.quantity * I.discount))*I.quantity) Total
+from sale.orders O, sale.store S, sale.order_item I
+where S.store_id = O.store_id 
+and I.order_id = O.order_id
+and YEAR(O.order_date) = 2018
+group by S.store_name, YEAR(O.order_date)
+order by Total DESC;
+
+
+
 
 ---- 13. Select the personnel which has the most sales amount in 2019.----
 
+select TOP 1 S.first_name, S.last_name, YEAR(O.order_date) Year, 
+sum((I.list_price - I.list_price*I.discount)*I.quantity) Total
+from sale.staff S, sale.orders O, sale.order_item I
+where S.staff_id = O.staff_id
+and O.order_id = I.order_id
+and YEAR(O.order_date)=2019
+group by S.first_name, S.last_name, YEAR(O.order_date)
+order by Total DESC;
+
+
+
+SELECT TOP(1) A.first_name, A.last_name, SUM(C.list_price) AS [staff sales]
+FROM sale.staff A, sale.orders B, sale.order_item C
+WHERE A.staff_id = B.staff_id
+AND B.order_id = C.order_id
+AND YEAR(B.order_date) = 2019
+GROUP BY A.first_name, A.last_name
+ORDER BY SUM(C.quantity) DESC;
