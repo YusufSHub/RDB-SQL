@@ -146,3 +146,9 @@ select b.order_id, a.staff_id, a.first_name, a.last_name, b.order_date,
 from sale.staff a, sale.orders b
 where a.staff_id = b.staff_id
 order by a.staff_id, b.order_date
+
+select b.order_id, a.staff_id, a.first_name, a.last_name, b.order_date,
+	lag(b.order_date, 2) over(partition by a.staff_id order by b.order_id) prev_date
+from sale.staff a, sale.orders b
+where a.staff_id = b.staff_id
+order by a.staff_id, b.order_date
