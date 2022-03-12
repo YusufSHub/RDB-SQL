@@ -67,10 +67,24 @@
 	where t1.Adv_Type = t2.Adv_Type
 
 
+	select A.Adv_Type,
+	CAST(count_order*1.0/count_actions AS numeric(3,2)) AS Conversion_Rate	
+	from
+	(SELECT Adv_Type, COUNT([Action]) AS count_order
+	FROM Actions
+	WHERE [Action] = 'Order'
+	GROUP BY Adv_Type
+	)  AS A,
+	(
+	SELECT Adv_Type, COUNT([Action]) AS count_actions
+	FROM Actions
+	GROUP BY Adv_Type
+	) AS B
+	where A.Adv_Type = B.Adv_Type
 
 
 
-
+	
 
 
 
