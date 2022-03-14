@@ -1,8 +1,8 @@
------------------SQL INCLASS SESSION-7 05 AGU 21 ------------------------------
+ï»¿-----------------SQL INCLASS SESSION-7 05 AGU 21 ------------------------------
 
 ---------------------------WINDOS FUNCTION----------------------------------------
 
---GROUP BY--> distinct kullanmıyoruz, distinct'i zaten kendi içinde yapıyor
+--GROUP BY--> distinct kullanmÄ±yoruz, distinct'i zaten kendi iÃ§inde yapÄ±yor
 --WF--> optioanal olarak yapabiliyoruz.
 
 --GROUP BY -->  aggregate mutlaka gerekli, 
@@ -11,8 +11,8 @@
 --GROUP BY --> Ordering invalid
 --WF--> ordering valid
 
---GROUP BY --> performansı düşük
---WF --> performanslı
+--GROUP BY --> performansÄ± dÃ¼Ã¾Ã¼k
+--WF --> performanslÄ±
 
 
 
@@ -31,15 +31,15 @@ FROM time_of_sales
 
 
  
--- UNBOUNDED PRECEDING --> ÖNCEKİ SATIRLARIN HEPSİNE BAK (kendi partition içinde)
--- UNBOUNDED FOLLOWING--> SONRAKİ SATIRLARIN HEPSİNE BAK (kendi partition içinde)
+-- UNBOUNDED PRECEDING --> Ã–NCEKÄ± SATIRLARIN HEPSÄ±NE BAK (kendi partition iÃ§inde)
+-- UNBOUNDED FOLLOWING--> SONRAKÄ± SATIRLARIN HEPSÄ±NE BAK (kendi partition iÃ§inde)
 
--- N PRECEDING --> BELİRTİLEN N DEĞERİNE KADAR ÖNCESİNE GİDİP BAK
--- M FOLLOWING --> BELİRTİLEN M DEĞERİNE KADAR SONRASINA BAK
+-- N PRECEDING --> BELÄ±RTÄ±LEN N DEÄŸERÄ±NE KADAR Ã–NCESÄ±NE GÄ±DÄ±P BAK
+-- M FOLLOWING --> BELÄ±RTÄ±LEN M DEÄŸERÄ±NE KADAR SONRASINA BAK
 
 
 -------------------------------------------------------------------------------
--- SORU 1: ürünlerin stock sayılarını bulunuz
+-- SORU 1: Ã¼rÃ¼nlerin stock sayÄ±larÄ±nÄ± bulunuz
 
 SELECT product_id, SUM(quantity)
 FROM production.stocks
@@ -51,24 +51,24 @@ FROM production.stocks
 GROUP BY product_id
 ORDER BY 1
 
--- window function ile yazalım
+-- window function ile yazalÄ±m
 SELECT SUM(quantity) OVER (PARTITION BY product_id)
 FROM production.stocks
--- YENİ BİR SÜTUN OLARAK sonuç geldi ama tek sütun olduğu için anlamak zor. yanına diğer sütunları da getirelim
+-- YENÄ± BÄ±R SÃœTUN OLARAK sonuÃ§ geldi ama tek sÃ¼tun olduÄŸu iÃ§in anlamak zor. yanÄ±na diÄŸer sÃ¼tunlarÄ± da getirelim
 
 SELECT *, SUM(quantity) OVER (PARTITION BY product_id)
 FROM production.stocks
 
---sadece product_id sütunu işimizi görür
+--sadece product_id sÃ¼tunu iÃ¾imizi gÃ¶rÃ¼r
 SELECT product_id, SUM(quantity) OVER (PARTITION BY product_id)
 FROM production.stocks
 
--- Distint atarak productÜ_id leri teke düşürürüm
+-- Distint atarak productÃœ_id leri teke dÃ¼Ã¾Ã¼rÃ¼rÃ¼m
 SELECT DISTINCT product_id, SUM(quantity) OVER (PARTITION BY product_id)
 FROM production.stocks
 
 
--- SORU 2: Markalara göre ortalama bisiklet fiyatlarını hem GROUP BY hem de WINDOW Function ile hesaplayınız
+-- SORU 2: Markalara gÃ¶re ortalama bisiklet fiyatlarÄ±nÄ± hem GROUP BY hem de WINDOW Function ile hesaplayÄ±nÄ±z
 
 -- GROUP BY ile :
 SELECT brand_id, AVG(list_price) avg_price
@@ -87,7 +87,7 @@ FROM production.products
 
 
 
---SORU 1: Tüm bisikletler arasında en ucuz bisikletin fiyatı
+--SORU 1: TÃ¼m bisikletler arasÄ±nda en ucuz bisikletin fiyatÄ±
 
 -- Minimum list_price istiyor. herhangi bir gruplamaya yani PARTITION a gerek yok!
 SELECT DISTINCT MIN (list_price) OVER ()
@@ -95,77 +95,77 @@ FROM production.products
 
 
 
---SORU 2: Her bir kategorideki en ucuz bisikletin fiyatı?
+--SORU 2: Her bir kategorideki en ucuz bisikletin fiyatÄ±?
 
--- kategoriye göre gruplama yapmak zorundayım yani PARTITION gerekli
+-- kategoriye gÃ¶re gruplama yapmak zorundayÄ±m yani PARTITION gerekli
 SELECT DISTINCT category_id, MIN (list_price) OVER (PARTITION BY category_id)
 FROM production.products
 
 
 
---SORU 3: product tablosunda toplam kaç farklı bisiklet var?
+--SORU 3: product tablosunda toplam kaÃ§ farklÄ± bisiklet var?
 
 SELECT DISTINCT COUNT (product_id) OVER () NUM_OF_BIKE
 FROM production.products
--- sadece product_id leri unique olarak saydırdım. PARTITION (gruplamaya gerek yok)
--- product tablosunda 321 adet farklı bisiklet olduğunu gördüm.
+-- sadece product_id leri unique olarak saydÄ±rdÄ±m. PARTITION (gruplamaya gerek yok)
+-- product tablosunda 321 adet farklÄ± bisiklet olduÄŸunu gÃ¶rdÃ¼m.
 
 
 
---SORU 4: Order_items tablosunda kaç farklı bisiklet var?
+--SORU 4: Order_items tablosunda kaÃ§ farklÄ± bisiklet var?
 SELECT DISTINCT COUNT(product_id) OVER() order_num_of_bike
 FROM sales.order_items
--- ürün sayısı : 4722
+-- Ã¼rÃ¼n sayÄ±sÄ± : 4722
 
 -- Bu hata verir!!
 SELECT COUNT(DISTINCT product_id) OVER() order_num_of_bike
 FROM sales.order_items
--- COUNT WINDOW fonksiyonunda yukardaki gibi içinde DISTINC'e izin vermiyor! Onun yerine,
+-- COUNT WINDOW fonksiyonunda yukardaki gibi iÃ§inde DISTINC'e izin vermiyor! Onun yerine,
 
 SELECT COUNT(DISTINCT product_id)
 FROM sales.order_items
---307 product_id geldi. bunun üzerinden bir sayma işlemi yaparsam
+--307 product_id geldi. bunun Ã¼zerinden bir sayma iÃ¾lemi yaparsam
 
--- yukardaki query'i window fonksiyonunu kullandığım query'nin subquerysi yapacağım.
+-- yukardaki query'i window fonksiyonunu kullandÄ±ÄŸÄ±m query'nin subquerysi yapacaÄŸÄ±m.
 SELECT DISTINCT COUNT(product_id) OVER() order_num_of_bike
 FROM (
-		SELECT DISTINCT product_id  -- buradan 307 row değer gelecek
+		SELECT DISTINCT product_id  -- buradan 307 row deÄŸer gelecek
 		FROM sales.order_items
 	) A
 
 
--- SORU 4: her bir kategoride toplam kaç farklı bisiklet var?
+-- SORU 4: her bir kategoride toplam kaÃ§ farklÄ± bisiklet var?
 
 SELECT DISTINCT category_id, COUNT(product_id) OVER(PARTITION BY category_id)
 FROM production.products
--- product_id zaten unique olduğu için ayrıca bir distinct e gerek kalmadı.
+-- product_id zaten unique olduÄŸu iÃ§in ayrÄ±ca bir distinct e gerek kalmadÄ±.
 
 
---SORU 5: Herbir kategorideki herbir  markada kaç farklı bisikletin bulunduğu
+--SORU 5: Herbir kategorideki herbir  markada kaÃ§ farklÄ± bisikletin bulunduÄŸu
 SELECT DISTINCT category_id, brand_id, COUNT(product_id) OVER(PARTITION BY category_id, brand_id)
 FROM production.products
 
 
 
---SORU 6 : WF ile tek select'te herbir kategoride kaç farklı marka olduğunu hesaplayabilir miyiz?
+--SORU 6 : WF ile tek select'te herbir kategoride kaÃ§ farklÄ± marka olduÄŸunu hesaplayabilir miyiz?
 
 SELECT DISTINCT category_id, COUNT(brand_id) OVER (PARTITION BY category_id) 
 FROM production.products
--- burada her bir kategorideki satır sayısını getiriyor. bunu istemiyoruz!!
+-- burada her bir kategorideki satÄ±r sayÄ±sÄ±nÄ± getiriyor. bunu istemiyoruz!!
 
 SELECT DISTINCT category_id, COUNT(brand_id) OVER (PARTITION BY category_id) 
 FROM 
 (
-SELECT DISTINCT category_id, brand_id  -- ÖNCE DISTINCT İLE BRAND_ID LERİ GETİRDİM.
+SELECT DISTINCT category_id, brand_id  -- Ã–NCE DISTINCT Ä±LE BRAND_ID LERÄ± GETÄ±RDÄ±M.
 FROM production.products 
 ) A
--- görüldüğü gibi WF  ile tek bir SELECT satırı ile bu soru yapılamıyor.
+-- gÃ¶rÃ¼ldÃ¼ÄŸÃ¼ gibi WF  ile tek bir SELECT satÄ±rÄ± ile bu soru yapÄ±lamÄ±yor.
 
 SELECT	category_id, count (DISTINCT brand_id)
 FROM	production.products
 GROUP BY category_id
 
---Sonuç: işin içinde DISTINCT varsa GROUP BY ile daha kolayca çözüme ulaşılıyor!!!
+--SonuÃ§: iÃ¾in iÃ§inde DISTINCT varsa GROUP BY ile daha kolayca Ã§Ã¶zÃ¼me ulaÃ¾Ä±lÄ±yor!!!
 
 
 
@@ -176,37 +176,37 @@ GROUP BY category_id
 
 
 
--- SORU 1 : Order tablosuna aşağıdaki gibi yeni bir sütun ekleyiniz:
-	-- Her bir personelin bir önceki satışının sipariş tarihini yazdırınız (LAG Fonksiyonunu kullanınız)
+-- SORU 1 : Order tablosuna aÃ¾aÄŸÄ±daki gibi yeni bir sÃ¼tun ekleyiniz:
+	-- Her bir personelin bir Ã¶nceki satÄ±Ã¾Ä±nÄ±n sipariÃ¾ tarihini yazdÄ±rÄ±nÄ±z (LAG Fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT *, 
 LAG(order_date, 1) OVER (PARTITION BY staff_id ORDER BY order_date, order_id) prev_ord_date
--- HER BİR PERSONELİN DEDİĞİ İÇİN PARTITION BY a staff_id koyuyoruz. (staff_id lere göre grupluyoruz)
--- bir önceki sipariş tarihini sorduğu için ORDER BY da order date'e (ve order_id'ye) göre sıralama yaptırdım
+-- HER BÄ±R PERSONELÄ±N DEDÄ±ÄŸÄ± Ä±Ã‡Ä±N PARTITION BY a staff_id koyuyoruz. (staff_id lere gÃ¶re grupluyoruz)
+-- bir Ã¶nceki sipariÃ¾ tarihini sorduÄŸu iÃ§in ORDER BY da order date'e (ve order_id'ye) gÃ¶re sÄ±ralama yaptÄ±rdÄ±m
 FROM sales.orders
 
--- LAG, current row'dan belirtilen argümandaki rakam kadar önceki değeri getiriyor..
--- query sonucu incelediğinde LAG fonksiyonu, prev_ord_date sütununda her satıra o satırın bir önceki satırındaki tarihi yazdığını görebilirsin.
-	--yani her satır bir önceki order_date'i yazdırmış olduk
+-- LAG, current row'dan belirtilen argÃ¼mandaki rakam kadar Ã¶nceki deÄŸeri getiriyor..
+-- query sonucu incelediÄŸinde LAG fonksiyonu, prev_ord_date sÃ¼tununda her satÄ±ra o satÄ±rÄ±n bir Ã¶nceki satÄ±rÄ±ndaki tarihi yazdÄ±ÄŸÄ±nÄ± gÃ¶rebilirsin.
+	--yani her satÄ±r bir Ã¶nceki order_date'i yazdÄ±rmÄ±Ã¾ olduk
 
---staff_id'nin 2 den 3'e geçtiği 165. satıra dikkat et. o satırdan itibaren yeni bir pencere açtı ve 
-	-- LAG() fonksiyonunu o pencereye ayrıca uyguladı. (165. satırda bir önceki tarih olmadığı için NULL yazdırdı.)
-
-
+--staff_id'nin 2 den 3'e geÃ§tiÄŸi 165. satÄ±ra dikkat et. o satÄ±rdan itibaren yeni bir pencere aÃ§tÄ± ve 
+	-- LAG() fonksiyonunu o pencereye ayrÄ±ca uyguladÄ±. (165. satÄ±rda bir Ã¶nceki tarih olmadÄ±ÄŸÄ± iÃ§in NULL yazdÄ±rdÄ±.)
 
 
--- SORU 2: Order tablosuna aşağıdaki gibi yeni bir sütun ekleyiniz:
-	--2. Herbir personelin bir sonraki satışının sipariş tarihini yazdırınız (LEAD fonksiyonunu kullanınız)
+
+
+-- SORU 2: Order tablosuna aÃ¾aÄŸÄ±daki gibi yeni bir sÃ¼tun ekleyiniz:
+	--2. Herbir personelin bir sonraki satÄ±Ã¾Ä±nÄ±n sipariÃ¾ tarihini yazdÄ±rÄ±nÄ±z (LEAD fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT	*,
 		LEAD(order_date, 1) OVER (PARTITION BY staff_id ORDER BY Order_date, order_id) next_ord_date
 FROM	sales.orders
 
--- LEAD, current row'dan belirtilen argümandaki rakam kadar sonraki değeri getiriyor
--- Niye iki sütunu order by yaptık? çünkü ayın aynı gününde birden fazla sipariş verilmiş olabilir.
-	-- o yüzden tarihe ilave olarak bir de order_id ye göre sıralama yaptırdık
+-- LEAD, current row'dan belirtilen argÃ¼mandaki rakam kadar sonraki deÄŸeri getiriyor
+-- Niye iki sÃ¼tunu order by yaptÄ±k? Ã§Ã¼nkÃ¼ ayÄ±n aynÄ± gÃ¼nÃ¼nde birden fazla sipariÃ¾ verilmiÃ¾ olabilir.
+	-- o yÃ¼zden tarihe ilave olarak bir de order_id ye gÃ¶re sÄ±ralama yaptÄ±rdÄ±k
 
---GENELLİKLE LEAD VE LAG FONKSİYONLARI SIRALANMIŞ BİR LİSTEYE UYGULANIR!!! O YÜZDEN ORDER BY KULLANILMALIDIR!!
+--GENELLÄ±KLE LEAD VE LAG FONKSÄ±YONLARI SIRALANMIÃ BÄ±R LÄ±STEYE UYGULANIR!!! O YÃœZDEN ORDER BY KULLANILMALIDIR!!
 
 
 
@@ -215,7 +215,7 @@ FROM	sales.orders
 
 
 SELECT category_id, product_id,
-	COUNT (*) OVER () TOTAL_ROW  -- bunun bize toplam satır sayısını getirmesini bekliyoruz
+	COUNT (*) OVER () TOTAL_ROW  -- bunun bize toplam satÄ±r sayÄ±sÄ±nÄ± getirmesini bekliyoruz
 FROM production.products
 
 
@@ -223,10 +223,10 @@ SELECT DISTINCT category_id,
 	COUNT (*) OVER () TOTAL_ROW,
 	COUNT(*) OVER (PARTITION BY category_id ORDER BY product_id) num_of_row
 FROM production.products
--- son elde ettiğimiz sütunda category_id lerin satır sayısını kümülatif olarak toplayarak getirdi.
-	-- category_id :1 olan pencerenin sonuna baktığımızda o kategoriye ait kaç satır olduğunu (59) anlıyoruz
-	-- product_id ye göre order by yaptığımız için her bir categroy_id gruplaması içinde product_id leri sıralıyor
-		-- ve bu sıralamanın her satırında kümülatif olarak toplama yapıyor.
+-- son elde ettiÄŸimiz sÃ¼tunda category_id lerin satÄ±r sayÄ±sÄ±nÄ± kÃ¼mÃ¼latif olarak toplayarak getirdi.
+	-- category_id :1 olan pencerenin sonuna baktÄ±ÄŸÄ±mÄ±zda o kategoriye ait kaÃ§ satÄ±r olduÄŸunu (59) anlÄ±yoruz
+	-- product_id ye gÃ¶re order by yaptÄ±ÄŸÄ±mÄ±z iÃ§in her bir categroy_id gruplamasÄ± iÃ§inde product_id leri sÄ±ralÄ±yor
+		-- ve bu sÄ±ralamanÄ±n her satÄ±rÄ±nda kÃ¼mÃ¼latif olarak toplama yapÄ±yor.
 
 -- ORDER BY yapmazsak:
 SELECT DISTINCT category_id,
@@ -234,17 +234,17 @@ SELECT DISTINCT category_id,
 	COUNT(*) OVER (PARTITION BY category_id) total_num_of_row,
 	COUNT(*) OVER (PARTITION BY category_id ORDER BY product_id) num_of_row
 FROM production.products
--- 2.COUNT'tan ORDER BY'ı kaldırınca product_id ye göre order by ı kaldırdığımız için, 
-	-- gruplanan categoru_id ye göre COUNT(*) sonucunu yani toplam row sayısını her bir category_id satırının yanına yazdırdı!
+-- 2.COUNT'tan ORDER BY'Ä± kaldÄ±rÄ±nca product_id ye gÃ¶re order by Ä± kaldÄ±rdÄ±ÄŸÄ±mÄ±z iÃ§in, 
+	-- gruplanan categoru_id ye gÃ¶re COUNT(*) sonucunu yani toplam row sayÄ±sÄ±nÄ± her bir category_id satÄ±rÄ±nÄ±n yanÄ±na yazdÄ±rdÄ±!
 
 
 SELECT category_id,
 COUNT(*) OVER(PARTITION BY category_id ORDER BY product_id ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW) prev_with_current
 from production.products
 
--- Grupladığımız category_id satırlarını bu sefer ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ile saydırdık.
-	-- Bulunduğu satırda o satırdan önceki tüm satırları ve o satırı işleme sokarak toplama yapıyor.
-	-- dolayısıyla bir önceki query deki gibi kümülatif bir toplama işlemi yapmış oluyor.
+-- GrupladÄ±ÄŸÄ±mÄ±z category_id satÄ±rlarÄ±nÄ± bu sefer ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW ile saydÄ±rdÄ±k.
+	-- BulunduÄŸu satÄ±rda o satÄ±rdan Ã¶nceki tÃ¼m satÄ±rlarÄ± ve o satÄ±rÄ± iÃ¾leme sokarak toplama yapÄ±yor.
+	-- dolayÄ±sÄ±yla bir Ã¶nceki query deki gibi kÃ¼mÃ¼latif bir toplama iÃ¾lemi yapmÄ±Ã¾ oluyor.
 
 
 
@@ -252,8 +252,8 @@ SELECT	category_id,
 		COUNT(*) OVER(PARTITION BY category_id ORDER BY product_id ROWS BETWEEN CURRENT ROW AND UNBOUNDED FOLLOWING) current_with_following
 from	production.products
 ORDER BY	category_id, product_id
--- OVER işlemi içindeki order by --> window fonksiyonu uygularken dikkate alacağı order by
--- Sondaki order by --> select işlemi sonundaki sonucun order by ı
+-- OVER iÃ¾lemi iÃ§indeki order by --> window fonksiyonu uygularken dikkate alacaÄŸÄ± order by
+-- Sondaki order by --> select iÃ¾lemi sonundaki sonucun order by Ä±
 
 
 SELECT	category_id,
@@ -273,53 +273,53 @@ SELECT	category_id,
 		COUNT(*) OVER(PARTITION BY category_id ORDER BY product_id ROWS BETWEEN 1  PRECEDING AND 1 FOLLOWING) current_with_following
 from	production.products
 ORDER BY	category_id, product_id
--- her satır için kendinden önceki 1 satırı ve sonraki 1 satırı hesap ederek count işlemi yap
-	-- mesela 5. satır için; önceki 1 satıra gitti, bu 4.satırdır... sonra kendinden sonraki 1.satıra gitti, bu 6. satırdır.
-		-- bu iki satır (4. ve 6. satırlar) arasında 3 satır olduğundan COUNT fonk. return olarak 3 getirdi.
+-- her satÄ±r iÃ§in kendinden Ã¶nceki 1 satÄ±rÄ± ve sonraki 1 satÄ±rÄ± hesap ederek count iÃ¾lemi yap
+	-- mesela 5. satÄ±r iÃ§in; Ã¶nceki 1 satÄ±ra gitti, bu 4.satÄ±rdÄ±r... sonra kendinden sonraki 1.satÄ±ra gitti, bu 6. satÄ±rdÄ±r.
+		-- bu iki satÄ±r (4. ve 6. satÄ±rlar) arasÄ±nda 3 satÄ±r olduÄŸundan COUNT fonk. return olarak 3 getirdi.
 
 SELECT	category_id,
 		COUNT(*) OVER(PARTITION BY category_id ORDER BY product_id ROWS BETWEEN 2 PRECEDING AND 3 FOLLOWING) current_with_following
 from	production.products
 ORDER BY	category_id, product_id
--- her satır için kendinden önceki 2 satırı ve sonraki 3 satırı hesap ederek count işlemi yap
-	-- mesela 5. satır için; önceki 2 satıra gitti, bu 3.satırdır... sonra kendinden sonraki 3.satıra gitti, bu 8. satırdır.
-		-- bu iki satır (3. ve 8. satırlar) arasında 6 satır olduğundan COUNT fonk. return olarak 6 getirdi.
+-- her satÄ±r iÃ§in kendinden Ã¶nceki 2 satÄ±rÄ± ve sonraki 3 satÄ±rÄ± hesap ederek count iÃ¾lemi yap
+	-- mesela 5. satÄ±r iÃ§in; Ã¶nceki 2 satÄ±ra gitti, bu 3.satÄ±rdÄ±r... sonra kendinden sonraki 3.satÄ±ra gitti, bu 8. satÄ±rdÄ±r.
+		-- bu iki satÄ±r (3. ve 8. satÄ±rlar) arasÄ±nda 6 satÄ±r olduÄŸundan COUNT fonk. return olarak 6 getirdi.
 
 
--- SORU 1: Tüm bisikletler arasında en ucuz bisikletin adı (FIRST_VALUE fonksiyonunu kullanınız)
+-- SORU 1: TÃ¼m bisikletler arasÄ±nda en ucuz bisikletin adÄ± (FIRST_VALUE fonksiyonunu kullanÄ±nÄ±z)
 
--- First_value içine argüman olarak hangi sütundaki ilk değeri istiyorsam onu alıyorum
+-- First_value iÃ§ine argÃ¼man olarak hangi sÃ¼tundaki ilk deÄŸeri istiyorsam onu alÄ±yorum
 SELECT *, FIRST_VALUE(product_name) OVER (ORDER BY list_price) 
 FROM production.products
 
 
--- SORU 2: yukardaki sonucun yanına list price nasıl yazdırırız?
+-- SORU 2: yukardaki sonucun yanÄ±na list price nasÄ±l yazdÄ±rÄ±rÄ±z?
 
 SELECT DISTINCT FIRST_VALUE(product_name) OVER (ORDER BY list_price), min(list_price) OVER() 
 FROM production.products
 
 
--- SORU 3: Herbir kategorideki en ucuz bisikletin adı (FIRST_VALUE fonksiyonunu kullanınız)
+-- SORU 3: Herbir kategorideki en ucuz bisikletin adÄ± (FIRST_VALUE fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT DISTINCT category_id, FIRST_VALUE (product_name) OVER (partition by category_id  ORDER BY list_price)
 FROM production.products
--- her kategorinin en ucuzunu sorduğu için category_id yi partition ile grupladık. 
+-- her kategorinin en ucuzunu sorduÄŸu iÃ§in category_id yi partition ile grupladÄ±k. 
 
 
 
--- SORU 4: Tüm bisikletler arasında en ucuz bisikletin adı (LAST_VALUE fonksiyonunu kullanınız)
+-- SORU 4: TÃ¼m bisikletler arasÄ±nda en ucuz bisikletin adÄ± (LAST_VALUE fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT DISTINCT	
 		FIRST_VALUE(product_name) OVER (ORDER BY list_price)
 FROM production.products
--- tek satırlık first_value değerini gördüm
+-- tek satÄ±rlÄ±k first_value deÄŸerini gÃ¶rdÃ¼m
 
 SELECT DISTINCT	
 		FIRST_VALUE(product_name) OVER (ORDER BY list_price),
 		LAST_VALUE(product_name) OVER (ORDER BY list_price desc)
 FROM production.products
--- LAST_VALUE satırını da girince birden fazla satır getirdi!! 
--- LAST_VALUE'da FIRST_VALUE'dan farklı olarak ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING girmem gerek.
+-- LAST_VALUE satÄ±rÄ±nÄ± da girince birden fazla satÄ±r getirdi!! 
+-- LAST_VALUE'da FIRST_VALUE'dan farklÄ± olarak ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING girmem gerek.
 
 SELECT	DISTINCT
 		FIRST_VALUE(product_name) OVER ( ORDER BY list_price),
@@ -336,42 +336,42 @@ FROM	production.products
 
 
 
--- SORU 1 : Herbir kategori içinde bisikletlerin fiyat sıralamasını yapınız (artan fiyata göre 1'den başlayıp birer birer artacak)
+-- SORU 1 : Herbir kategori iÃ§inde bisikletlerin fiyat sÄ±ralamasÄ±nÄ± yapÄ±nÄ±z (artan fiyata gÃ¶re 1'den baÃ¾layÄ±p birer birer artacak)
 
--- ROW_NUMBER baştan aşağıya numara verir. Sıralanmış bir liste üzerinden bir değer seçebilmem için kullanıyoruz
-	-- list_price sıralamasında 10 numaralı sıradaki ürünü getir dediğimde bu işe yarar.
+-- ROW_NUMBER baÃ¾tan aÃ¾aÄŸÄ±ya numara verir. SÄ±ralanmÄ±Ã¾ bir liste Ã¼zerinden bir deÄŸer seÃ§ebilmem iÃ§in kullanÄ±yoruz
+	-- list_price sÄ±ralamasÄ±nda 10 numaralÄ± sÄ±radaki Ã¼rÃ¼nÃ¼ getir dediÄŸimde bu iÃ¾e yarar.
 SELECT category_id, list_price,
 	   ROW_NUMBER () OVER(PARTITION BY category_id ORDER BY list_price) AS ROW_NUM
 FROM production.products
--- list price'ı niye sıraladık, artan fiyata göre 1 den başlayıp birer birer artacak dediği için..
+-- list price'Ä± niye sÄ±raladÄ±k, artan fiyata gÃ¶re 1 den baÃ¾layÄ±p birer birer artacak dediÄŸi iÃ§in..
 
 
 
--- SORU 2: Aynı soruyu aynı fiyatlı bisikletler aynı sıra numarasını alacak şekilde yapınız 
-	--(RANK fonksiyonunu kullanınız)
+-- SORU 2: AynÄ± soruyu aynÄ± fiyatlÄ± bisikletler aynÄ± sÄ±ra numarasÄ±nÄ± alacak Ã¾ekilde yapÄ±nÄ±z 
+	--(RANK fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT	category_id, list_price,
 		ROW_NUMBER () OVER (PARTITION BY category_id ORDER BY list_price) ROW_NUM,
 		RANK () OVER (PARTITION BY category_id ORDER BY list_price) RANK_NUM
 FROM	production.products
--- AYNI rank'te olan ikinci değerin ranknumarasını ilkinin numarası ile değiştiriyor
-	-- yani rank numrası önceki ile aynı oluyor ve sonraki gelen için numara bir atlayarak kendi numarası ile sıralanıyor.
+-- AYNI rank'te olan ikinci deÄŸerin ranknumarasÄ±nÄ± ilkinin numarasÄ± ile deÄŸiÃ¾tiriyor
+	-- yani rank numrasÄ± Ã¶nceki ile aynÄ± oluyor ve sonraki gelen iÃ§in numara bir atlayarak kendi numarasÄ± ile sÄ±ralanÄ±yor.
 
 
--- SORU 3: Aynı soruyu aynı fiyatlı bisikletler aynı sıra numarasını alacak şekilde yapınız 
-	--(DENSE_RANK fonksiyonunu kullanınız)
+-- SORU 3: AynÄ± soruyu aynÄ± fiyatlÄ± bisikletler aynÄ± sÄ±ra numarasÄ±nÄ± alacak Ã¾ekilde yapÄ±nÄ±z 
+	--(DENSE_RANK fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT	category_id, list_price,
 		ROW_NUMBER () OVER (PARTITION BY category_id ORDER BY list_price) ROW_NUM,
 		RANK () OVER (PARTITION BY category_id ORDER BY list_price) RANK_NUM,
 		DENSE_RANK () OVER (PARTITION BY category_id ORDER BY list_price) DENSE_RANK_NUM
 FROM	production.products
--- DENSE_RANK'te RANK'ten farklı olarak; aynı rank'te olanlara aynı numarayı vermesine rağmen sıra numaraları atlamıyor.
+-- DENSE_RANK'te RANK'ten farklÄ± olarak; aynÄ± rank'te olanlara aynÄ± numarayÄ± vermesine raÄŸmen sÄ±ra numaralarÄ± atlamÄ±yor.
 
 
 
---SORU 4: Herbir kategori içinde bisikletlerin fiyatlarına göre bulundukları yüzdelik dilimleri yazdırınız. 
-	-- PERCENT_RANK fonksiyonunu kullanınız.
+--SORU 4: Herbir kategori iÃ§inde bisikletlerin fiyatlarÄ±na gÃ¶re bulunduklarÄ± yÃ¼zdelik dilimleri yazdÄ±rÄ±nÄ±z. 
+	-- PERCENT_RANK fonksiyonunu kullanÄ±nÄ±z.
 
 SELECT	category_id, list_price,
 		ROW_NUMBER () OVER (PARTITION BY category_id ORDER BY list_price) ROW_NUM,
@@ -379,10 +379,10 @@ SELECT	category_id, list_price,
 		DENSE_RANK () OVER (PARTITION BY category_id ORDER BY list_price) DENSE_RANK_NUM,
 		ROUND (PERCENT_RANK () OVER (PARTITION BY category_id ORDER BY list_price) , 2 ) PERCENT_RNK
 FROM	production.products
--- Bu fonksiyon da ORDER BY'a bağlı!! Mutlaka ORDER BY kullanılmalı!!!
+-- Bu fonksiyon da ORDER BY'a baÄŸlÄ±!! Mutlaka ORDER BY kullanÄ±lmalÄ±!!!
 
 
---SORU 5: Aynı soruyu CUM_DIST ile yapınız:
+--SORU 5: AynÄ± soruyu CUM_DIST ile yapÄ±nÄ±z:
 
 SELECT	category_id, list_price,
 		ROW_NUMBER () OVER (PARTITION BY category_id ORDER BY list_price) ROW_NUM,
@@ -394,37 +394,37 @@ FROM	production.products
 
 
 
------------------ CUME_DIST İLE PERCENT_RANK ARASINDAKİ FARKLAR---------------------
+----------------- CUME_DIST Ä±LE PERCENT_RANK ARASINDAKÄ± FARKLAR---------------------
 
 -- CUME_DIST: 
 
-	-- Bir grup içindeki bir değerin kümülatif dağılımını döndürür; 
-	-- yani, geçerli satırdaki değerden küçük veya ona eşit partition değerlerinin yüzdesidir. 
-	-- Bu, partition'un sıralamasındaki current row'dan önceki veya eş olan SATIR SAYISINI, 
-		-- partitiondaki TOPLAM SATIR SAYISINA BÖLEREK temsil eder. 
-		-- 0 ile 1 arasında değişen sonuçlar return eder ve partition'daki en büyük değer 1 dir.
+	-- Bir grup iÃ§indeki bir deÄŸerin kÃ¼mÃ¼latif daÄŸÄ±lÄ±mÄ±nÄ± dÃ¶ndÃ¼rÃ¼r; 
+	-- yani, geÃ§erli satÄ±rdaki deÄŸerden kÃ¼Ã§Ã¼k veya ona eÃ¾it partition deÄŸerlerinin yÃ¼zdesidir. 
+	-- Bu, partition'un sÄ±ralamasÄ±ndaki current row'dan Ã¶nceki veya eÃ¾ olan SATIR SAYISINI, 
+		-- partitiondaki TOPLAM SATIR SAYISINA BÃ–LEREK temsil eder. 
+		-- 0 ile 1 arasÄ±nda deÄŸiÃ¾en sonuÃ§lar return eder ve partition'daki en bÃ¼yÃ¼k deÄŸer 1 dir.
 
 -- PERCENT_RANK:
 
--- En yüksek değer hariç, geçerli satırdaki değerden küçük partition değerlerinin yüzdesini döndürür. 
-	--Return değerleri 0 ile 1 arasındadır. 
-	--Formülü şudur: (rank - 1) / (rows - 1) burada rank, o satırın rank'i; rows, partition satırlarının sayısıdır. 
+-- En yÃ¼ksek deÄŸer hariÃ§, geÃ§erli satÄ±rdaki deÄŸerden kÃ¼Ã§Ã¼k partition deÄŸerlerinin yÃ¼zdesini dÃ¶ndÃ¼rÃ¼r. 
+	--Return deÄŸerleri 0 ile 1 arasÄ±ndadÄ±r. 
+	--FormÃ¼lÃ¼ Ã¾udur: (rank - 1) / (rows - 1) burada rank, o satÄ±rÄ±n rank'i; rows, partition satÄ±rlarÄ±nÄ±n sayÄ±sÄ±dÄ±r. 
 
--- ARALARINDAKİ FARKI ŞU ŞEKİLDE İZAH EDEBİLİRİZ:
+-- ARALARINDAKÄ± FARKI ÃU ÃEKÄ±LDE Ä±ZAH EDEBÄ±LÄ±RÄ±Z:
 
-	-- PERCENT_RANK, current score'dan (o row'dan) daha düşük değerlerin yüzdesini döndürür. 
-	-- Kümülatif dağılım anlamına gelen CUME_DIST ise current skorun actual position'unu döndürür. 
+	-- PERCENT_RANK, current score'dan (o row'dan) daha dÃ¼Ã¾Ã¼k deÄŸerlerin yÃ¼zdesini dÃ¶ndÃ¼rÃ¼r. 
+	-- KÃ¼mÃ¼latif daÄŸÄ±lÄ±m anlamÄ±na gelen CUME_DIST ise current skorun actual position'unu dÃ¶ndÃ¼rÃ¼r. 
 
-	-- Yani bir partition'da (yukardaki örnekte category_id'leri gruplamıştım) 100 score (değer) varsa 
-		--ve PERCENT_RANK 90 ise, bu score'un 90 score'dan yüksek olduğu anlamına gelir. 
-		-- CUME_DIST 90 ise, bu, score'un listedeki 90. olduğu anlamına gelir.
+	-- Yani bir partition'da (yukardaki Ã¶rnekte category_id'leri gruplamÄ±Ã¾tÄ±m) 100 score (deÄŸer) varsa 
+		--ve PERCENT_RANK 90 ise, bu score'un 90 score'dan yÃ¼ksek olduÄŸu anlamÄ±na gelir. 
+		-- CUME_DIST 90 ise, bu, score'un listedeki 90. olduÄŸu anlamÄ±na gelir.
 
--- CUME_DIST tekrar eden değerleri iki kere hesaba katıyor. ama PERCENT_RANK bir kere katıyor.
+-- CUME_DIST tekrar eden deÄŸerleri iki kere hesaba katÄ±yor. ama PERCENT_RANK bir kere katÄ±yor.
 
 
 
---6. Her bir kategorideki bisikletleri artan fiyata göre 4 gruba ayırın. Mümkünse her grupta aynı sayıda bisiklet olacak.
-	--(NTILE fonksiyonunu kullanınız)
+--6. Her bir kategorideki bisikletleri artan fiyata gÃ¶re 4 gruba ayÄ±rÄ±n. MÃ¼mkÃ¼nse her grupta aynÄ± sayÄ±da bisiklet olacak.
+	--(NTILE fonksiyonunu kullanÄ±nÄ±z)
 
 SELECT	category_id, list_price,
 		ROW_NUMBER () OVER (PARTITION BY category_id ORDER BY list_price) ROW_NUM,
@@ -435,16 +435,16 @@ SELECT	category_id, list_price,
 		NTILE(4) OVER (PARTITION BY category_id ORDER BY list_price) ntil
 FROM	production.products
 
--- NTILE : bir partition içindeki değerleri belirlediğimiz paremetre sayısına (burada 4) bölüyor ve her bölüme numara atıyor
-	-- kategory_id ye göre grupladık. list_price a göre sıraladık.
-	-- 59 değer var. NTILE bunları 4'e bölüyor (parametre olarak 4 girdiğimiz için)
-	-- 15'er 15'er bunlara sıra numarası veriyor. ilk 15'e 1 diyor, sonraki 15'e 2 diyor.... son gruba da 4 diyor
+-- NTILE : bir partition iÃ§indeki deÄŸerleri belirlediÄŸimiz paremetre sayÄ±sÄ±na (burada 4) bÃ¶lÃ¼yor ve her bÃ¶lÃ¼me numara atÄ±yor
+	-- kategory_id ye gÃ¶re grupladÄ±k. list_price a gÃ¶re sÄ±raladÄ±k.
+	-- 59 deÄŸer var. NTILE bunlarÄ± 4'e bÃ¶lÃ¼yor (parametre olarak 4 girdiÄŸimiz iÃ§in)
+	-- 15'er 15'er bunlara sÄ±ra numarasÄ± veriyor. ilk 15'e 1 diyor, sonraki 15'e 2 diyor.... son gruba da 4 diyor
 
 
 
-	--ÖDEV OLARAK BIRAKILAN SORULAR:
+	--Ã–DEV OLARAK BIRAKILAN SORULAR:
 
---SORU 7: mağazaların 2016 yılına ait haftalık hareketli sipariş sayılarını hesaplayınız
+--SORU 7: maÄŸazalarÄ±n 2016 yÄ±lÄ±na ait haftalÄ±k hareketli sipariÃ¾ sayÄ±larÄ±nÄ± hesaplayÄ±nÄ±z
 
 
---SORU 8: '2016-03-12' ve '2016-04-12' arasında satılan ürün sayısının 7 günlük hareketli ortalamasını hesaplayın.
+--SORU 8: '2016-03-12' ve '2016-04-12' arasÄ±nda satÄ±lan Ã¼rÃ¼n sayÄ±sÄ±nÄ±n 7 gÃ¼nlÃ¼k hareketli ortalamasÄ±nÄ± hesaplayÄ±n.
