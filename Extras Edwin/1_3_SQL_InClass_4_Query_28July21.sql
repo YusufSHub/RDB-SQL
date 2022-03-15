@@ -1,44 +1,44 @@
------------------------------- 28.07.2021 SQL InClass -------------
+ï»¿------------------------------ 28.07.2021 SQL InClass -------------
 
 
-              --------------- VIEWS -------------------(Önceki derste işlendi. tekrar mahiyetinde buraya alındı)
+              --------------- VIEWS -------------------(Ã–nceki derste iÅŸlendi. tekrar mahiyetinde buraya alÄ±ndÄ±)
 
--- Subquery'ler, CTE(Common Table Expression)'lar, VIEW'lar hep aynı amaca hizmet ediyor. Tablolarla daha rahat çalışmamızı sağlıyorlar. ,
-	-- Diğer bir avantajı da performansı artırmaktır. Siz query'nizi joinlerle tek bir query içinde değil, subery lerle, CTE'lerle,
-	-- VIEW'larla daralta daralta (daraltılmış tablolarla) sonuca gitmeye çalışıyorsunuz.
+-- Subquery'ler, CTE(Common Table Expression)'lar, VIEW'lar hep aynÄ± amaca hizmet ediyor. Tablolarla daha rahat Ã§alÄ±ÅŸmamÄ±zÄ± saÄŸlÄ±yorlar. ,
+	-- DiÄŸer bir avantajÄ± da performansÄ± artÄ±rmaktÄ±r. Siz query'nizi joinlerle tek bir query iÃ§inde deÄŸil, subery lerle, CTE'lerle,
+	-- VIEW'larla daralta daralta (daraltÄ±lmÄ±ÅŸ tablolarla) sonuca gitmeye Ã§alÄ±ÅŸÄ±yorsunuz.
 				-----------AVANTAJLARI:-------------
 	--        Performans + Simplicity + Security + Storage 
 	
-	-- VIEW : Tek bir tabloda yapacağımız işlemleri aşamalar bölerek yapmamızı sağlıyor. Bu da hızımızı arttırıyor.
-	-- VIEW ile aynı tablo gibi oluşturuyoruz ve bu VIEW'a kimleri erişebileceğini belirleyebiliyoruz. bu da security sağlıyor.
-	-- VIEW'ların kullanımı da oluşturması basittir. büyük tablonun içerisinde biz bir kısım ilgilendimiz verileri alıp onlar üzerinden çalışıyoruz.
-	-- VIEW'lar çok az yer kaplar. çübkü asıl tablonun bir görüntüsüdür.
+	-- VIEW : Tek bir tabloda yapacaÄŸÄ±mÄ±z iÅŸlemleri aÅŸamalar bÃ¶lerek yapmamÄ±zÄ± saÄŸlÄ±yor. Bu da hÄ±zÄ±mÄ±zÄ± arttÄ±rÄ±yor.
+	-- VIEW ile aynÄ± tablo gibi oluÅŸturuyoruz ve bu VIEW'a kimleri eriÅŸebileceÄŸini belirleyebiliyoruz. bu da security saÄŸlÄ±yor.
+	-- VIEW'larÄ±n kullanÄ±mÄ± da oluÅŸturmasÄ± basittir. bÃ¼yÃ¼k tablonun iÃ§erisinde biz bir kÄ±sÄ±m ilgilendimiz verileri alÄ±p onlar Ã¼zerinden Ã§alÄ±ÅŸÄ±yoruz.
+	-- VIEW'lar Ã§ok az yer kaplar. Ã§Ã¼bkÃ¼ asÄ±l tablonun bir gÃ¶rÃ¼ntÃ¼sÃ¼dÃ¼r.
 
 
 			-------------- CTE - COMMON TABLE ESPRESSIONS -------------
 
--- Subquery mantığı ile aynı. Subquery'de içerde bir tablo ile ilgileniyorduk CTE'de yukarda yazıyoruz.
+-- Subquery mantÄ±ÄŸÄ± ile aynÄ±. Subquery'de iÃ§erde bir tablo ile ilgileniyorduk CTE'de yukarda yazÄ±yoruz.
 
---(CTE), başka bir SELECT, INSERT, DELETE veya UPDATE deyiminde başvurabileceğiniz veya içinde kullanabileceğiniz geçici bir sonuç kümesidir. 
--- Başka bir SQL sorgusu içinde tanımlayabileceğiniz bir sorgudur. Bu nedenle, diğer sorgular CTE'yi bir tablo gibi kullanabilir. 
--- CTE, daha büyük bir sorguda kullanılmak üzere yardımcı ifadeler yazmamızı sağlar.
+--(CTE), baÅŸka bir SELECT, INSERT, DELETE veya UPDATE deyiminde baÅŸvurabileceÄŸiniz veya iÃ§inde kullanabileceÄŸiniz geÃ§ici bir sonuÃ§ kÃ¼mesidir. 
+-- BaÅŸka bir SQL sorgusu iÃ§inde tanÄ±mlayabileceÄŸiniz bir sorgudur. Bu nedenle, diÄŸer sorgular CTE'yi bir tablo gibi kullanabilir. 
+-- CTE, daha bÃ¼yÃ¼k bir sorguda kullanÄ±lmak Ã¼zere yardÄ±mcÄ± ifadeler yazmamÄ±zÄ± saÄŸlar.
 
 
 --ORDINARY
 
-	--subquery den hiç bir farkı yok. subquery içerde kullanılıyor, Ordinary CTE yukarda WITH ile oluşturuluyor.
+	--subquery den hiÃ§ bir farkÄ± yok. subquery iÃ§erde kullanÄ±lÄ±yor, Ordinary CTE yukarda WITH ile oluÅŸturuluyor.
 
 WITH query_name [(column_name1, ....)] AS
 	(SELECT ....)   -- CTE Definition
 
 SQL_Statement
 
--- sadece WITH kısmını yazarsan tek başına çalışmaz. WITH ile belirttiğim query'yi birazdan kullanacağım demek bu. 
--- asıl SQL statement içinde bunu kullanıyoruz.
+-- sadece WITH kÄ±smÄ±nÄ± yazarsan tek baÅŸÄ±na Ã§alÄ±ÅŸmaz. WITH ile belirttiÄŸim query'yi birazdan kullanacaÄŸÄ±m demek bu. 
+-- asÄ±l SQL statement iÃ§inde bunu kullanÄ±yoruz.
 
 -- RECURSIVE
 
-	-- UNION ALL ile kullanılıyor.
+	-- UNION ALL ile kullanÄ±lÄ±yor.
 
 WITH table_name (colum_list)
 AS
@@ -53,19 +53,19 @@ AS
 SELECT *
 FROM table_name
 
--- WITH ile yukarda tablo oluşturuyor, aşağıda da SELECT FROM ile bu tabloyu kullanıyor
+-- WITH ile yukarda tablo oluÅŸturuyor, aÅŸaÄŸÄ±da da SELECT FROM ile bu tabloyu kullanÄ±yor
 
 
 
 -- Question: List customers who have an order prior to the last order of a customer named Sharyn Hopkins 
 	-- and are residents of the city of San Diego.
---(TR) Sharyn Hopkins adlı bir müşterinin son siparişinden önce siparişi olan ve 
-	--San Diego şehrinde ikamet eden müşterileri listeleyin
+--(TR) Sharyn Hopkins adlÄ± bir mÃ¼ÅŸterinin son sipariÅŸinden Ã¶nce sipariÅŸi olan ve 
+	--San Diego ÅŸehrinde ikamet eden mÃ¼ÅŸterileri listeleyin
 
--- bu isimli müşteriyi nerden bulacağım? sales.customers tan.
--- son siparişini nerden bulacağım? sales.orders tan
+-- bu isimli mÃ¼ÅŸteriyi nerden bulacaÄŸÄ±m? sales.customers tan.
+-- son sipariÅŸini nerden bulacaÄŸÄ±m? sales.orders tan
 
-SELECT MAX(B.order_date) --son sipariş tarihini getirmek için MAX fonksiyonunu kullandım. ORDER BY DESC de yapabilirdim
+SELECT MAX(B.order_date) --son sipariÅŸ tarihini getirmek iÃ§in MAX fonksiyonunu kullandÄ±m. ORDER BY DESC de yapabilirdim
 FROM sales.customers A, sales.orders B
 WHERE A.customer_id = B.customer_id
 AND A.first_name = 'Sharyn'
@@ -85,10 +85,10 @@ FROM sales.customers A, sales.orders B, T1 C
 WHERE A.customer_id = B.customer_id 
 AND B.order_date < C.LAST_ORDER
 AND A.city = 'San Diego'
--- WITH ile başlayan CTE bloğu tek başına çalıştırırsan hata verir. 
-	-- ardından gelen içinde CTE yi kullandığın query ile beraber seçerek çalıştırmalısın.
+-- WITH ile baÅŸlayan CTE bloÄŸu tek baÅŸÄ±na Ã§alÄ±ÅŸtÄ±rÄ±rsan hata verir. 
+	-- ardÄ±ndan gelen iÃ§inde CTE yi kullandÄ±ÄŸÄ±n query ile beraber seÃ§erek Ã§alÄ±ÅŸtÄ±rmalÄ±sÄ±n.
 
--- SORU2: 0'dan 9'a kadar her bir rakam bir satırda olacak şekilde bir tablo oluşturun
+-- SORU2: 0'dan 9'a kadar her bir rakam bir satÄ±rda olacak ÅŸekilde bir tablo oluÅŸturun
 
 SELECT 0 number
 UNION ALL
@@ -110,60 +110,60 @@ SELECT 1
 SELECT * 
 FROM T1
 
--------her seferinde aynı tabloyu tekrar tekrar kullanmak istersem:
+-------her seferinde aynÄ± tabloyu tekrar tekrar kullanmak istersem:
 WITH T1 AS
 (
 SELECT 0 number
 UNION ALL
 SELECT number +1 
 FROM T1
-WHERE  number < 9 --sonsuza kadar yapmaması için ve hata vermemesi için burada limitliyoruz.
+WHERE  number < 9 --sonsuza kadar yapmamasÄ± iÃ§in ve hata vermemesi iÃ§in burada limitliyoruz.
 )
 
 SELECT * FROM T1
 
 
---- WITH İLE SADECE VAR OLAN DEĞERLERDEN BİR TABLO OLUŞTURMAK DEĞİL, 
-	--YENİ DEĞERLER EKLEYEREK BİR TABLO DA OLUŞTURABİLİRİZ
+--- WITH Ä±LE SADECE VAR OLAN DEÄŸERLERDEN BÄ±R TABLO OLUÅŸTURMAK DEÄŸÄ±L, 
+	--YENÄ± DEÄŸERLER EKLEYEREK BÄ±R TABLO DA OLUÅŸTURABÄ±LÄ±RÄ±Z
 
 
 --------------------------- SET----------------------------------
 
 				------- IMPORTANT----------
 
--- Her iki select statemen da aynı sayıda column içermeli.
+-- Her iki select statemen da aynÄ± sayÄ±da column iÃ§ermeli.
 
--- INTERSECT VE EXCEPT çok önemli. UNION hayat kurtarmaz ama diğer ikisi çok önemli işler yaparlar.
+-- INTERSECT VE EXCEPT Ã§ok Ã¶nemli. UNION hayat kurtarmaz ama diÄŸer ikisi Ã§ok Ã¶nemli iÅŸler yaparlar.
 
--- UNION ve INTERSECT'te positional ordering önemli değil 
-	-- yani hangi tablo önce hangisi sonra geleceğinin önemi yok. 
-	-- ama EXCEPT te bu önemli!!!
+-- UNION ve INTERSECT'te positional ordering Ã¶nemli deÄŸil 
+	-- yani hangi tablo Ã¶nce hangisi sonra geleceÄŸinin Ã¶nemi yok. 
+	-- ama EXCEPT te bu Ã¶nemli!!!
 
--- Select statement ta birbirine karşılık gelen sütunların data tipleri aynı olmalı.
+-- Select statement ta birbirine karÅŸÄ±lÄ±k gelen sÃ¼tunlarÄ±n data tipleri aynÄ± olmalÄ±.
 
--- ORDER BY ile bir sıralama yapmak istiyorsak, ORDER BY'ı son tablonun FROM'unun sonuna yazmalısın.
-	-- diğer tabololarda bireysel olarak ORDER BY kullanamazsın!!
+-- ORDER BY ile bir sÄ±ralama yapmak istiyorsak, ORDER BY'Ä± son tablonun FROM'unun sonuna yazmalÄ±sÄ±n.
+	-- diÄŸer tabololarda bireysel olarak ORDER BY kullanamazsÄ±n!!
 
--- UNION, dublikasyonları filtreleyip göstermediği için fazladan işlem yapmaktadır. 
-	-- fakat UNION ALL bu işlemi yapmadığı (dublikasyonlarla beraber sonuçları getirdiği) için
-	-- performans açısından daha iyidir.
+-- UNION, dublikasyonlarÄ± filtreleyip gÃ¶stermediÄŸi iÃ§in fazladan iÅŸlem yapmaktadÄ±r. 
+	-- fakat UNION ALL bu iÅŸlemi yapmadÄ±ÄŸÄ± (dublikasyonlarla beraber sonuÃ§larÄ± getirdiÄŸi) iÃ§in
+	-- performans aÃ§Ä±sÄ±ndan daha iyidir.
 
--- SÜTUN İSİMLERİ AYNI OLMAK ZORUNDA DEĞİLDİR. İKİNCİ TABLONUN SÜTUN İSİMLERİ FARKLI İSE; 
-	-- UNION İLE YAPTIĞIMIZ SORGU SONUCU; SONUÇ TABLOSUNUN SÜTUN İSİMLERİ İLK TABLONUN SÜTUN İSİMLERİ OLUR!!
+-- SÃœTUN Ä±SÄ±MLERÄ± AYNI OLMAK ZORUNDA DEÄŸÄ±LDÄ±R. Ä±KÄ±NCÄ± TABLONUN SÃœTUN Ä±SÄ±MLERÄ± FARKLI Ä±SE; 
+	-- UNION Ä±LE YAPTIÄŸIMIZ SORGU SONUCU; SONUÃ‡ TABLOSUNUN SÃœTUN Ä±SÄ±MLERÄ± Ä±LK TABLONUN SÃœTUN Ä±SÄ±MLERÄ± OLUR!!
 
 
 
--- SET-SORU 1: Sacremento şehrindeki müşteriler ile Monroe şehrindeki müşterilerin soyisimlerini listeleyin
+-- SET-SORU 1: Sacremento ÅŸehrindeki mÃ¼ÅŸteriler ile Monroe ÅŸehrindeki mÃ¼ÅŸterilerin soyisimlerini listeleyin
 
 SELECT last_name
 FROM sales.customers
 WHERE city = 'Sacramento'
--- 6 tane satır geldi.
+-- 6 tane satÄ±r geldi.
 
 SELECT last_name
 FROM sales.customers
 WHERE city = 'Monroe'
--- 11 satır geldi. şimdi iki tabloyu birleştirelim
+-- 11 satÄ±r geldi. ÅŸimdi iki tabloyu birleÅŸtirelim
 
 SELECT last_name
 FROM sales.customers
@@ -174,9 +174,9 @@ UNION ALL
 SELECT last_name
 FROM sales.customers
 WHERE city = 'Monroe'
--- 17 sonuç geldi. Rasmussen soyadı iki defa tekrar etmiş. şimdi UNION ile yapacağım ve tekrarı almayacak.
+-- 17 sonuÃ§ geldi. Rasmussen soyadÄ± iki defa tekrar etmiÅŸ. ÅŸimdi UNION ile yapacaÄŸÄ±m ve tekrarÄ± almayacak.
 
--- aynı işlemi UNION ile yaparsak dublikasyonu göz önüne alarak işlem yapacak ve:
+-- aynÄ± iÅŸlemi UNION ile yaparsak dublikasyonu gÃ¶z Ã¶nÃ¼ne alarak iÅŸlem yapacak ve:
 SELECT last_name
 FROM sales.customers
 WHERE city = 'Sacramento'
@@ -186,9 +186,9 @@ UNION
 SELECT last_name
 FROM sales.customers
 WHERE city = 'Monroe'
--- 16 satır getirecektir.
+-- 16 satÄ±r getirecektir.
 
--- soyisimle birlikte ismi de select satırında getirirsek...
+-- soyisimle birlikte ismi de select satÄ±rÄ±nda getirirsek...
 SELECT first_name, last_name
 FROM sales.customers
 WHERE city = 'Sacramento'
@@ -198,7 +198,7 @@ UNION
 SELECT first_name, last_name
 FROM sales.customers
 WHERE city = 'Monroe'
--- iki Rasmussen soyadının farklı isimleri olduğundan UNION'da da 17 satır getirdi. çünkü artık tekrar eden satır yok.
+-- iki Rasmussen soyadÄ±nÄ±n farklÄ± isimleri olduÄŸundan UNION'da da 17 satÄ±r getirdi. Ã§Ã¼nkÃ¼ artÄ±k tekrar eden satÄ±r yok.
 
 -- Another Way 'OR' 'IN'
 SELECT last_name
@@ -220,7 +220,7 @@ UNION ALL
 
 SELECT state
 from sales.stores
--- sonuç tablosunda ilk tablonun sütun ismini aldığına dikkat et!!
+-- sonuÃ§ tablosunda ilk tablonun sÃ¼tun ismini aldÄ±ÄŸÄ±na dikkat et!!
 
 SELECT city, 'STATE' AS STATE
 from sales.stores
@@ -229,8 +229,8 @@ UNION ALL
 
 SELECT state
 from sales.stores
--- ilk tabloya select te bir sütun daha çağırdık. şimdi ilk tablodan 2, ikinciden 1 sütun çağırmış olduk.
--- iki sorgunun da aynı sayıda sütun içermesi gerektiğinden bu hata verdi!!
+-- ilk tabloya select te bir sÃ¼tun daha Ã§aÄŸÄ±rdÄ±k. ÅŸimdi ilk tablodan 2, ikinciden 1 sÃ¼tun Ã§aÄŸÄ±rmÄ±ÅŸ olduk.
+-- iki sorgunun da aynÄ± sayÄ±da sÃ¼tun iÃ§ermesi gerektiÄŸinden bu hata verdi!!
 
 SELECT city, 'STATE' AS STATE
 from sales.stores
@@ -239,9 +239,9 @@ UNION ALL
 
 SELECT state, 'BALDWIN' AS city
 from sales.stores
--- iki tablonun isimleri ve içerikleri farklı olsa da ikisini de birleştirdi.
--- çünkü önemli olan sütun sayılarının aynı olması. 
--- UNION İLE SORGU SONUCU; SONUÇ TABLOSUNUN SÜTUN İSİMLERİ İLK TABLONUN SÜTUN İSİMLERİ OLUR!!
+-- iki tablonun isimleri ve iÃ§erikleri farklÄ± olsa da ikisini de birleÅŸtirdi.
+-- Ã§Ã¼nkÃ¼ Ã¶nemli olan sÃ¼tun sayÄ±larÄ±nÄ±n aynÄ± olmasÄ±. 
+-- UNION Ä±LE SORGU SONUCU; SONUÃ‡ TABLOSUNUN SÃœTUN Ä±SÄ±MLERÄ± Ä±LK TABLONUN SÃœTUN Ä±SÄ±MLERÄ± OLUR!!
 
 
 SELECT city, 'STATE' AS STATE
@@ -251,7 +251,7 @@ UNION ALL
 
 SELECT state, 1 AS city
 from sales.stores
--- iki tablonun data tipleri farklı olduğundan hata verdi!!!
+-- iki tablonun data tipleri farklÄ± olduÄŸundan hata verdi!!!
 
 
 
@@ -267,8 +267,8 @@ INTERSECT
 SELECT *
 FROM production.products
 WHERE model_year = 2017
--- SELECT * İLE TÜM SÜTUNLARI ÇAĞIRDIĞIMIZ İÇİN BÜTÜN SÜTUNLARIN İÇİNDEKİ DEĞERLERİ 
-	--KESİŞTİRMEYE ÇALIŞIYOR AMA KESİŞTİREMİYOR BU YÜZDEN BİR DEĞER DÖNDÜREMİYOR.
+-- SELECT * Ä±LE TÃœM SÃœTUNLARI Ã‡AÄŸIRDIÄŸIMIZ Ä±Ã‡Ä±N BÃœTÃœN SÃœTUNLARIN Ä±Ã‡Ä±NDEKÄ± DEÄŸERLERÄ± 
+	--KESÄ±ÅŸTÄ±RMEYE Ã‡ALIÅŸIYOR AMA KESÄ±ÅŸTÄ±REMÄ±YOR BU YÃœZDEN BÄ±R DEÄŸER DÃ–NDÃœREMÄ±YOR.
 
 SELECT brand_id
 FROM production.products
@@ -279,7 +279,7 @@ INTERSECT
 SELECT brand_id
 FROM production.products
 WHERE model_year = 2017
--- gördüğün gibi brand_id sütunlarını kesiştirdi ve sonuç getirdi.
+-- gÃ¶rdÃ¼ÄŸÃ¼n gibi brand_id sÃ¼tunlarÄ±nÄ± kesiÅŸtirdi ve sonuÃ§ getirdi.
 
 SELECT brand_id
 FROM production.products
@@ -290,7 +290,7 @@ INTERSECT
 SELECT brand_id
 FROM production.products
 WHERE model_year = 2017
-ORDER BY brand_id DESC  -- ORDER BY SATIRINI BURADAKİ GİBİ EN ALTTA KULLANMALIYIZ.
+ORDER BY brand_id DESC  -- ORDER BY SATIRINI BURADAKÄ± GÄ±BÄ± EN ALTTA KULLANMALIYIZ.
 
 
 SELECT DISTINCT A.brand_name
@@ -306,8 +306,8 @@ WHERE A.brand_id = B.brand_id
 AND B.model_year = 2017
 -- INTERSECT TE DISTINCT KULLANMANA GEREK YOK!! O ZATEN DISTINCT YAPAR!!
 
--- Yukarda INTERSECT ile yaptığımız SET operation'u şimdi de bir subquery olarak kullanalım.
-	-- ve brands tablosunda brand_id'lerin bu operation sonucu gelen id'ler olmasını sağlayalım.
+-- Yukarda INTERSECT ile yaptÄ±ÄŸÄ±mÄ±z SET operation'u ÅŸimdi de bir subquery olarak kullanalÄ±m.
+	-- ve brands tablosunda brand_id'lerin bu operation sonucu gelen id'ler olmasÄ±nÄ± saÄŸlayalÄ±m.
 SELECT *
 FROM	production.brands
 WHERE	brand_id IN (
@@ -319,13 +319,13 @@ WHERE	brand_id IN (
 					FROM	production.products
 					WHERE	model_year= 2017
 					)
--- production.brands tablosunda yalnızca brand_id ve brand_name olduğu için bir üstteki sorguya ilave olarak
-	-- brand_name'i getirmiş oldukk.
+-- production.brands tablosunda yalnÄ±zca brand_id ve brand_name olduÄŸu iÃ§in bir Ã¼stteki sorguya ilave olarak
+	-- brand_name'i getirmiÅŸ oldukk.
 
 
 
 -- SET-SORU 4: write a query that returns customer who have orders for each 2016, 2017, and 2018
--- (TR) 2016, 2017 ve 2018 için siparişleri olan müşteriyi döndüren bir sorgu yazın.
+-- (TR) 2016, 2017 ve 2018 iÃ§in sipariÅŸleri olan mÃ¼ÅŸteriyi dÃ¶ndÃ¼ren bir sorgu yazÄ±n.
 
 
 SELECT customer_id
@@ -344,7 +344,7 @@ SELECT customer_id
 FROM sales.orders
 WHERE order_date BETWEEN '2018-01-01' AND '2018-12-31'
 -- buraya kadar sadece customer_id leri getirdik. ancak customer isimleri istiyordu.
-	-- bunu sales.custormers tablosundan alacağım. 
+	-- bunu sales.custormers tablosundan alacaÄŸÄ±m. 
 
 SELECT	first_name, last_name
 FROM	sales.customers
@@ -361,13 +361,13 @@ WHERE	customer_id IN (
 						FROM	sales.orders
 						WHERE	order_date BETWEEN '2018-01-01' AND '2018-12-31'
 						)
--- az önceki INTERCEPT ettiğim (ve customer_id'leri getiren) tabloları subquery yaptım ve 
-	-- where de customer_id IN (subquery) kullanarak sales.customers tablosundan isim, soyisim sütunlarını getirdim.
+-- az Ã¶nceki INTERCEPT ettiÄŸim (ve customer_id'leri getiren) tablolarÄ± subquery yaptÄ±m ve 
+	-- where de customer_id IN (subquery) kullanarak sales.customers tablosundan isim, soyisim sÃ¼tunlarÄ±nÄ± getirdim.
 
 
 
 ------------- EXCEPT------------
---TABLE A dan TABLE B'yi çıkartmak istiyorsan TABLE A'yı YUKARIYA yazmalısın.
+--TABLE A dan TABLE B'yi Ã§Ä±kartmak istiyorsan TABLE A'yÄ± YUKARIYA yazmalÄ±sÄ±n.
 
 
 -- SORU 5: Write a query that returns only products produced in 2016 (not ordered in 2017)
@@ -375,12 +375,12 @@ WHERE	customer_id IN (
 SELECT brand_id, model_year, product_name
 FROM production.products
 ORDER by 1
--- yıllara baktığımıda 2017 de olup diğer yıllarda üretilmeyen modelleri görebiliyoruz. bunların peşindeyiz.
+-- yÄ±llara baktÄ±ÄŸÄ±mÄ±da 2017 de olup diÄŸer yÄ±llarda Ã¼retilmeyen modelleri gÃ¶rebiliyoruz. bunlarÄ±n peÅŸindeyiz.
 
 SELECT brand_id
 FROM production.products 
 WHERE model_year = 2016
--- bu brandlerden 2017 de de üretilenleri çıkartmak istiyorum.
+-- bu brandlerden 2017 de de Ã¼retilenleri Ã§Ä±kartmak istiyorum.
 
 
 SELECT brand_id
@@ -393,11 +393,11 @@ SELECT brand_id
 FROM production.products 
 WHERE model_year = 2017
 ORDER BY 1
--- 3, 4 ve 5 brand_id si olan markaların sadece 2016 yılı üretimleri olduğunu gördüm.
--- çünkü diğerleri 2017 de de üretildiği için EXCEPT ile çıkarıldı.
+-- 3, 4 ve 5 brand_id si olan markalarÄ±n sadece 2016 yÄ±lÄ± Ã¼retimleri olduÄŸunu gÃ¶rdÃ¼m.
+-- Ã§Ã¼nkÃ¼ diÄŸerleri 2017 de de Ã¼retildiÄŸi iÃ§in EXCEPT ile Ã§Ä±karÄ±ldÄ±.
 
 
--- peki bir EXCEPT daha kullanarak 2018 yılında üretilenleri de çıkartabilir miyiz?:
+-- peki bir EXCEPT daha kullanarak 2018 yÄ±lÄ±nda Ã¼retilenleri de Ã§Ä±kartabilir miyiz?:
 SELECT brand_id
 FROM production.products 
 WHERE model_year = 2016
@@ -414,9 +414,9 @@ SELECT brand_id
 FROM production.products 
 WHERE model_year = 2018
 ORDER BY 1
--- iki EXCEPT kullanarak 2017 ve 2018 leri 2016'lardan çıkatmış olduk.
+-- iki EXCEPT kullanarak 2017 ve 2018 leri 2016'lardan Ã§Ä±katmÄ±ÅŸ olduk.
 
--- ikinci blokta 2017 ile 2018 yıllarını beraber condition'a sokarsak:
+-- ikinci blokta 2017 ile 2018 yÄ±llarÄ±nÄ± beraber condition'a sokarsak:
 SELECT brand_id
 FROM production.products 
 WHERE model_year = 2016
@@ -429,7 +429,7 @@ WHERE model_year = 2017 or model_year = 2018
 ORDER BY 1
 
 
---şimdi brand isimlerini de getirelim. products tablosunda brand name yok. bunun için production.brands tablosuna gideceğiz.
+--ÅŸimdi brand isimlerini de getirelim. products tablosunda brand name yok. bunun iÃ§in production.brands tablosuna gideceÄŸiz.
 SELECT	*
 FROM	production.brands 
 WHERE	brand_id IN (
@@ -450,10 +450,10 @@ SELECT *
 FROM sales.orders A, sales.order_items B
 WHERE A.order_id = B.order_id
 AND A.order_date BETWEEN '2017-01-01' and '2017-12-31'
--- buraya kadar sadece 2017 de sipariş verilen ürüleri getirdik. 
-	--ama bu ürünlerden 2017 haricinde sipariş edilen varsa bunları çıkartmamı istiyor
+-- buraya kadar sadece 2017 de sipariÅŸ verilen Ã¼rÃ¼leri getirdik. 
+	--ama bu Ã¼rÃ¼nlerden 2017 haricinde sipariÅŸ edilen varsa bunlarÄ± Ã§Ä±kartmamÄ± istiyor
 
-SELECT DISTINCT B.product_id --product_idlerin tekrarlarını önledik. aşağıdaki şartları sağlayan kaç farklı product_id var onu görmek için. 
+SELECT DISTINCT B.product_id --product_idlerin tekrarlarÄ±nÄ± Ã¶nledik. aÅŸaÄŸÄ±daki ÅŸartlarÄ± saÄŸlayan kaÃ§ farklÄ± product_id var onu gÃ¶rmek iÃ§in. 
 FROM sales.orders A, sales.order_items B
 WHERE A.order_id = B.order_id
 AND A.order_date BETWEEN '2017-01-01' and '2017-12-31'
@@ -463,9 +463,9 @@ EXCEPT
 SELECT DISTINCT B.product_id 
 FROM sales.orders A, sales.order_items B
 WHERE A.order_id = B.order_id
-AND A.order_date NOT BETWEEN '2017-01-01' and '2017-12-31' --2017 dışındakiler için NOT BETWEEN DEDİK!!!! 
+AND A.order_date NOT BETWEEN '2017-01-01' and '2017-12-31' --2017 dÄ±ÅŸÄ±ndakiler iÃ§in NOT BETWEEN DEDÄ±K!!!! 
 
---şimdi bu ürünlerin isimlerini de products tablosuna müracaat ederek getirelim.
+--ÅŸimdi bu Ã¼rÃ¼nlerin isimlerini de products tablosuna mÃ¼racaat ederek getirelim.
 SELECT	product_id, product_name
 FROM	production.products
 WHERE	product_id IN (
@@ -496,21 +496,21 @@ and YEAR(order_date) <> 2017
 
 
 -----------------------------------
--- NOT EXISTS YERİNE EXCEPT KULLANABİLİYORUZ:
+-- NOT EXISTS YERÄ±NE EXCEPT KULLANABÄ±LÄ±YORUZ:
 
 SELECT DISTINCT state
 FROM sales.customers X
 WHERE NOT EXISTS (
-					SELECT DISTINCT D.STATE -- BURAYA HERHANGİ BİR RAKAM KOYABİLİRSİN. SELECT SATIRINA BAKMIYOR
+					SELECT DISTINCT D.STATE -- BURAYA HERHANGÄ± BÄ±R RAKAM KOYABÄ±LÄ±RSÄ±N. SELECT SATIRINA BAKMIYOR
 					FROM production.products A, sales.order_items B, sales.orders C, sales.customers D
 					WHERE A.product_id = B.product_id
 					and B.order_id = C.order_id
 					and C.customer_id = D.customer_id 
 					and A.product_name = 'Trek Remedy 9.8 - 2017'
-					and X.state = D.state  -- dış query deki customers tablosu ile burdakini de join ediyor gibi..
+					and X.state = D.state  -- dÄ±ÅŸ query deki customers tablosu ile burdakini de join ediyor gibi..
 					) 
 
--- ÖNCEKİ DERS YAPILAN YUKARDAKİ ÖRNEKTE NOT EXISTS YERİNE EXCEPT KULLANIRSAK:
+-- Ã–NCEKÄ± DERS YAPILAN YUKARDAKÄ± Ã–RNEKTE NOT EXISTS YERÄ±NE EXCEPT KULLANIRSAK:
 
 SELECT	D.STATE
 FROM	sales.customers D
@@ -523,9 +523,9 @@ WHERE	A.product_id = B.product_id
 AND		B.order_id = C.order_id
 AND		C.customer_id = D.customer_id
 AND		A.product_name = 'Trek Remedy 9.8 - 2017'
--- Alttaki sorguda Trek Remedy 'in satın alındığı state leri getirdiğine göre. 
--- EXCEPT ile kullandığımnızda Trek Remedy 'in satın alınmadığı state i bulmuş olduk.
--- ( üstteki sorguda customer ların state'lerinin tamamını getiriyor.
+-- Alttaki sorguda Trek Remedy 'in satÄ±n alÄ±ndÄ±ÄŸÄ± state leri getirdiÄŸine gÃ¶re. 
+-- EXCEPT ile kullandÄ±ÄŸÄ±mnÄ±zda Trek Remedy 'in satÄ±n alÄ±nmadÄ±ÄŸÄ± state i bulmuÅŸ olduk.
+-- ( Ã¼stteki sorguda customer larÄ±n state'lerinin tamamÄ±nÄ± getiriyor.
 
 -------------------------------------------------------------------------
 
@@ -535,8 +535,8 @@ AND		A.product_name = 'Trek Remedy 9.8 - 2017'
 	-- 1= Pending; 2= Processing, 3 = Rejected, 4 = Completed
 
 SELECT order_status,
-		CASE order_status WHEN 1 THEN 'Pending'  -- order_status'u WHEN'in dışında kullandığımız için bu zaten eşittir anlamına geliyor
-							WHEN 2 THEN 'Processing' -- eğer WHEN'in içinde kullansaydık yanına = koymamız gerekecekti.
+		CASE order_status WHEN 1 THEN 'Pending'  -- order_status'u WHEN'in dÄ±ÅŸÄ±nda kullandÄ±ÄŸÄ±mÄ±z iÃ§in bu zaten eÅŸittir anlamÄ±na geliyor
+							WHEN 2 THEN 'Processing' -- eÄŸer WHEN'in iÃ§inde kullansaydÄ±k yanÄ±na = koymamÄ±z gerekecekti.
 							WHEN 3 THEN 'Rejected'
 							WHEN 4 THEN 'Completed'
 		END AS meanofstatus
@@ -572,4 +572,4 @@ FROM sale.staff
 
 
 
---- CASE'in WHERE'DE NASIL KULLANABİLECEĞİMİZİ ÇALIŞ. NE ŞEKİLDE KULLANABİLİRİZ?
+--- CASE'in WHERE'DE NASIL KULLANABÄ±LECEÄŸÄ±MÄ±ZÄ± Ã‡ALIÅŸ. NE ÅŸEKÄ±LDE KULLANABÄ±LÄ±RÄ±Z?
