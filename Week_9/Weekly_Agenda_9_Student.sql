@@ -80,6 +80,19 @@ where a.brand_id = b.brand_id and brand_name='Acer' and model_year=2021
 
 ----3. Select the least 3 products in stock according to stores.
 
+	select * from(
+	select c.store_name, a.product_name, 
+	sum(b.quantity) stocked, 
+	ROW_NUMBER() OVER(PARTITION By c.store_name order by sum(b.quantity), a.product_name) quantity 
+	from product.product a, product.stock b, sale.store c
+	where a.product_id=b.product_id and 
+	b.store_id=c.store_id
+	group by c.store_name, a.product_name
+	having sum(quantity) >0
+	) tbl
+where tbl.quantity <4
+
+
 select TOP 3 *
 from(
 select s.store_id, p.product_name, sum(s.quantity) stock_quantity,
@@ -87,7 +100,7 @@ row_number() over(partition by s.store_id order by sum(s.quantity)) stock_out
 from product.stock  s, product.product p
 where s.product_id=p.product_id
 group by store_id, p.product_name
-having  sum(s.quantity)>=0
+having  sum(s.quantity)>0
 --order by 1, 3
 ) a
 where a.stock_out<4
@@ -102,4 +115,26 @@ order by stock_out
 ----4. Return the average number of sales orders in 2020 sales
 
 
-----5. Assign a rank to each product by list price in each brand and get products with rank less than or equal to three.
+
+
+
+
+
+
+
+
+
+
+
+
+/*5. Assign a rank to each product by list price in each 
+brand and get products with rank less than or equal to three.*/
+
+
+select  *
+from (
+	select	product_id, product_name, brand_id, list_price,
+	rank() OVER ( partition by brand_id order by list_price DESC) price_rank
+	from product.product
+	) tbl2
+where price_rank <4
