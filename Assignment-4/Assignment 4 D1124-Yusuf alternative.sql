@@ -16,9 +16,9 @@ GROUP BY a.product_id, b.discount
 
 tbl2 as ( select product_id, Total_product, Leadd ,
  case 
- when leadd > total_product then 1
- when leadd < total_product then -1
- when leadd = total_product then 0
+ when (leadd - total_product)>0 then 1
+ when (leadd - total_product)<0 then -1
+ when (leadd - total_product)=0 then 0
  end as efekt
  from tbl1
 
@@ -31,4 +31,3 @@ when sum(efekt) = 0 then 'Neutral'
 end as [Discount Effect]
 from tbl2
 group by  product_id
- 

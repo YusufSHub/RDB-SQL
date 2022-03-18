@@ -1,4 +1,4 @@
--- list the products the last 10 orders in buffalo city
+﻿-- list the products the last 10 orders in buffalo city
 
 select b.product_name, a.product_id, a.order_id from sale.order_item a, product.product b
 where a.product_id=b.product_id and a.order_id in 
@@ -50,3 +50,65 @@ FROM	sale.customer A, sale.order_item B, sale.orders C
 WHERE	A.customer_id = C.customer_id
 AND		B.order_id = C.order_id
 GROUP BY   A.city
+
+--State ortalamasinin altinda ortlama ciroya sahip sehirleri listeleyin..
+
+
+with t1 as (
+	select DISTINCT A.state, A.city, 
+	avg(C.list_price*(1-C.discount)*C.quantity) over(partition by A.state) avg_state,
+	avg(C.list_price*(1-C.discount)*C.quantity) over(partition by A.state, A.city) avg_city
+	FROM sale.customer A, sale.orders B, sale.order_item C
+	where A.customer_id=B.customer_id and B.order_id=C.order_id 
+	)
+
+select * from T1
+where avg_city < avg_state
+
+
+--Create a report shows daywise turnovers of the BFLO Store.
+
+select * from
+(
+	select DATENAME(WEEKDAY, order_date) [dayz],
+	list_price*(1-discount)*quantity total
+	from sale.store a, sale.orders b, sale.order_item c
+	where store_name='The BFLO Store' and
+	a.store_id=b.store_id and b.order_id=c.order_id
+) A
+	PIVOT
+(sum(total)
+for dayz 
+in ([Monday], [Tuesday], [Wednesday],[Thursday],[Friday])
+) as pivot_table
+
+
+select * from
+(
+	select DATENAME(WEEKDAY, order_date) [dayz],
+	datepart(ISOWW, order_date) weekz,
+	list_price*(1-discount)*quantity total
+	from sale.store a, sale.orders b, sale.order_item c
+	where store_name='The BFLO Store' and
+	a.store_id=b.store_id and b.order_id=c.order_id
+	and year(B.order_date)=2018
+) A
+	PIVOT
+(sum(total)
+for dayz 
+in ([Monday], [Tuesday], [Wednesday],[Thursday],[Friday], [Saturday],[Sunday])
+) as pivot_table
+
+
+--Write a query that returns how many days are between the third and fourth order dates of each staff.
+--Her bir personelin üçüncü ve dördüncü siparişleri arasındaki gün farkını bulunuz.
+WITH T1 AS
+(
+SELECT staff_id, order_date, order_id,
+		LEAD(order_date) OVER (PARTITION BY staff_id ORDER BY order_id) next_ord_date,
+		ROW_NUMBER () OVER (PARTITION BY staff_id ORDER BY order_id) row_num
+FROM sale.orders
+)
+SELECT *, DATEDIFF(DAY, order_date, next_ord_date) DIFF_OFDATE
+FROM T1
+WHERE row_num = 3
