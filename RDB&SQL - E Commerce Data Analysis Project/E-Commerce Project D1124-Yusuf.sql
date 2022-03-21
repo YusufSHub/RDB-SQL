@@ -156,11 +156,11 @@ with tablo1 as (
  order by ratio_p14 DESC, ratio_p11 ASC
 
 
-
+ ------
  select cust_id,
 	   SUM(CASE WHEN Prod_id='Prod_11' THEN order_quantity ELSE 0 end) Prod_11_count,
 	   SUM(CASE WHEN Prod_id='Prod_14' THEN order_quantity ELSE 0 end) Prod_14_count,
-	  (SUM(CASE WHEN Prod_id='Prod_11' THEN order_quantity ELSE 0 end) + SUM(CASE WHEN Prod_id='Prod_14' THEN order_quantity ELSE 0 end))* 1.0 / SUM (Order_Quantity)*100  as Perc
+	  format((SUM(CASE WHEN Prod_id='Prod_11' THEN order_quantity ELSE 0 end) + SUM(CASE WHEN Prod_id='Prod_14' THEN order_quantity ELSE 0 end))* 1.0 / SUM (Order_Quantity)*100, 'N1')  as Percentages
 FROM combined_table
 where Cust_id in (
 				SELECT Cust_id
@@ -188,7 +188,7 @@ group by Cust_id, DATENAME(YEAR, order_date), DATENAME(MONTH, Order_Date)
 
 
 
-select * from combined_table
+select * from Customer_Log
 --//////////////////////////////////
 
 
@@ -197,15 +197,12 @@ select * from combined_table
 --Don't forget to call up columns you might need later.
 
 CREATE VIEW Monthly_Visit as 
-select DATENAME(MONTH, order_date) Month_Visit, count(DATENAME(MONTH, order_date)) Visit_Count
-from combined_table
-group by DATENAME(MONTH, order_date)
+select Cust_id, 		Customer_Name , 		year(Order_Date) years_, 		DATENAME(month,Order_Date) month_,		count(*) monthly_visitfrom combined_tablegroup by Cust_id, Customer_Name ,year(Order_Date) , DATENAME(month,Order_Date)
 
 select * from Monthly_Visit
 
 
-select * from combined_table 
-where DATENAME(MONTH, order_date)='February'
+
 
 
 
@@ -217,28 +214,18 @@ where DATENAME(MONTH, order_date)='February'
 --then create a new column for each month showing the next month using the order you have made above. (use "LEAD" function.)
 --Don't forget to call up columns you might need later.
 
-select Cust_id, Order_Date, second_order 
-from
-	(select DISTINCT Cust_id, Order_Date,	
-	 min(Order_date) over(Partition by Cust_id) first_order_date,	 
-	 lead(Order_Date, 1) over(partition by cust_id order by order_date) second_order,
-	 DENSE_RANK() over(Partition by Cust_id order by order_date) order_datez
-	 from combined_table
-	 ) T
-	
-select Cust_id, Order_Date, second_order 
-from
-	(select DISTINCT Cust_id, Order_Date,	
-	 min(Order_date) over(Partition by Cust_id) first_order_date,	 
-	 lead(Order_Date, 1) over(partition by cust_id order by order_date) second_order,
-	 DENSE_RANK() over(Partition by Cust_id order by order_date) order_datez
-	 from combined_table
-	 ) T
-	 where DATEDIFF(MONTH,Order_Date,second_order)=1
-	
+CREATE VIEW NEXT_VISIT as 
+	select *,
+	lead(next_month,1) OVER(PARTITION by cust_id order by next_month) next_visit
+	from
+	(select *, 
+	DENSE_RANK() over(order by years_, month_) Next_Month
+	from Monthly_Visit
+	)  A
+
+	select * from NEXT_VISIT
 
 
-select * from Customer_Log
 
 --/////////////////////////////////
 
@@ -247,14 +234,15 @@ select * from Customer_Log
 --4. Calculate monthly time gap between two consecutive visits by each customer.
 --Don't forget to call up columns you might need later.
 
-select Cust_id, order_date, second_order, DATEDIFF(MONTH, order_date, second_order) Month_Gap
-from (
-	select DISTINCT Cust_id, Order_Date,	
-	 min(Order_date) over(Partition by Cust_id) first_order_date,	 
-	 lead(Order_Date,1) over(partition by cust_id order by order_date) second_order
-	 from combined_table
-	 ) T
-where DATEDIFF(MONTH, order_date, second_order) > 0
+
+CREATE VIEW month_gap as 
+select Cust_id, next_visit, Next_Month, (next_visit-Next_Month) month_gap
+from NEXT_VISIT
+
+select * from month_gap
+
+
+
 
 
 --///////////////////////////////////
@@ -282,9 +270,8 @@ order by CustLabels
 
 
 
-
 select * from combined_table
-where Cust_id='Cust_1049'
+where Cust_id='Cust_59'
 
 --/////////////////////////////////////
 
