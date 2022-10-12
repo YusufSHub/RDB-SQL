@@ -2,6 +2,7 @@
 
 -- March 3, 2022
 
+USE SampleRetail;
 
 CREATE TABLE t_date_time (
 	A_time time,
