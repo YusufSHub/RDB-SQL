@@ -14,7 +14,7 @@ CREATE TABLE t_date_time (
 
 SELECT * FROM t_date_time
 
-SELECT GETDATE()
+SELECT GETDATE() /*gets todays date and time*/
 
 INSERT t_date_time VALUES (GETDATE(),GETDATE(),GETDATE(),GETDATE(),GETDATE(),GETDATE())
 
