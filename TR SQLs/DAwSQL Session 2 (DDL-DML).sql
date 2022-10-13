@@ -170,15 +170,18 @@ select * from Person.Person_2
 INSERT Book.Publisher
 DEFAULT VALUES
 
-
+select * from Book.Publisher
 --Update
 
 
 --Update işleminde koşul tanımlamaya dikkat ediniz. Eğer herhangi bir koşul tanımlamazsanız 
 --Sütundaki tüm değerlere değişiklik uygulanacaktır.
 
-
+ 
 UPDATE Person.Person_2 SET Person_FirstName = 'Default_Name'--burayı çalıştırmadan önce yukarıdaki scripti çalıştırın
+
+select * from Person.Person_2
+
 
 --Where ile koşul vererek 88963212466 SSN ' ye sahip kişinin adını Can şeklinde güncelliyoruz.
 --Kişinin önceki Adı Kerem' di.
