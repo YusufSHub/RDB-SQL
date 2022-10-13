@@ -165,6 +165,8 @@ SELECT * FROM Person.Person where Person_FirstName like 'M%'
 --Bu şekilde tabloya tablonun default değerleriyle insert işlemi yapılacaktır.
 --Tabiki sütun constraintleri buna elverişli olmalı. 
 
+select * from Person.Person_2
+
 INSERT Book.Publisher
 DEFAULT VALUES
 
