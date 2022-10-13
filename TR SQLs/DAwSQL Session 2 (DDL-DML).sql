@@ -83,7 +83,7 @@ CREATE TABLE [Person].[Person_Mail](
 	[SSN] BIGINT UNIQUE NOT NULL	
 );
 
-
+select * from Person.Person_Mail
 
 ----------INSERT
 
@@ -96,6 +96,8 @@ CREATE TABLE [Person].[Person_Mail](
 INSERT INTO Person.Person (SSN, Person_FirstName, Person_LastName) VALUES (75056659595,'Zehra', 'Tekin')
 
 INSERT INTO Person.Person (SSN, Person_FirstName) VALUES (889623212466,'Kerem')
+
+select * from Person.Person
 
 
 --Aşağıda Person_LastName sütununa değer girilmemiştir. 
@@ -118,13 +120,14 @@ INSERT Person.Person VALUES (15078893526,'Mert','Yetiş')
 
 INSERT Person.Person VALUES (55556698752, 'Esra', Null)
 
-
+select * from Person.Person
 
 --Aynı anda birden fazla kayıt insert etmek isterseniz;
 
 INSERT Person.Person VALUES (35532888963,'Ali','Tekin');
 INSERT Person.Person VALUES (88232556264,'Metin','Sakin')
 
+select * from person.Person
 
 --Aynı tablonun aynı sütunlarına birçok kayıt insert etmek isterseniz aşağıdaki syntaxı kullanabilirsiniz.
 --Burada dikkat edeceğiniz diğer bir konu Mail_ID sütununa değer atanmadığıdır.
@@ -135,6 +138,9 @@ INSERT INTO Person.Person_Mail (Mail, SSN)
 VALUES ('zehtek@gmail.com', 75056659595),
 	   ('meyet@gmail.com', 15078893526),
 	   ('metsak@gmail.com', 35532558963)
+
+
+select * from [Person].[Person_Mail]
 
 --Yukarıdaki syntax ile aşağıdaki fonksiyonları çalıştırdığınızda,
 --Yaptığınız son insert işleminde tabloya eklenen son kaydın identity' sini ve tabloda etkilenen kayıt sayısını getirirler.
