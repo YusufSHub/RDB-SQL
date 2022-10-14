@@ -203,10 +203,10 @@ select * from Person.Person_2
 
 UPDATE Person.Person_2 SET Person_FirstName = B.Person_FirstName 
 FROM Person.Person_2 A Inner Join Person.Person B ON A.SSN=B.SSN
-WHERE B.SSN = 78962212466
+WHERE B.SSN = 88232556264
 
 
-
+select * from Person.Person_2
 
 ---
 ----delete
@@ -258,9 +258,11 @@ TRUNCATE TABLE Book.Publisher;
 
 -- Foreign key konstraint' leri belirlememiz gerekiyor
 
-ALTER TABLE Book.Book ADD CONSTRAINT FK_Author FOREIGN KEY (Author_ID) REFERENCES Book.Author (Author_ID)
+ALTER TABLE Book.Book ADD CONSTRAINT FK_Author 
+FOREIGN KEY (Author_ID) REFERENCES Book.Author (Author_ID);
 
-ALTER TABLE Person.Book ADD CONSTRAINT FK_Publisher FOREIGN KEY (Publisher_ID) REFERENCES Book.Publisher (Publisher_ID)
+ALTER TABLE Person.Book ADD CONSTRAINT FK_Publisher 
+FOREIGN KEY (Publisher_ID) REFERENCES Book.Publisher (Publisher_ID);
 
 ---------Author
 
