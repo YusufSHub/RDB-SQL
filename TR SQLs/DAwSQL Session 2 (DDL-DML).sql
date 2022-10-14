@@ -186,7 +186,7 @@ select * from Person.Person_2
 --Where ile koşul vererek 88963212466 SSN ' ye sahip kişinin adını Can şeklinde güncelliyoruz.
 --Kişinin önceki Adı Kerem' di.
 
-UPDATE Person.Person_2 SET Person_FirstName = 'Can' WHERE SSN = 78962212466
+UPDATE Person.Person_2 SET Person_FirstName = 'Can' WHERE SSN = 75056659595
 
 
 select * from Person.Person_2
