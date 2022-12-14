@@ -14,3 +14,4 @@ select product_id, AVG(discount) mean_discount, AVG(quantity*1.0) mean_quantity
 from asg4 
 group by product_id
 order by product_id
+
